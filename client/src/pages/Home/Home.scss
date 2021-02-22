@@ -1,0 +1,91 @@
+.server-list {
+	display: block;
+	padding: 0 20px;
+
+	table {
+		display: table;
+		width: 100%;
+		border-collapse: collapse;
+
+		thead {
+			tr {
+				border-bottom: 1px solid #363636;
+
+				th {
+					padding-bottom: 10px;
+				}
+			}
+		}
+		tbody {
+			text-align: center;
+			font-size: 14px;
+			line-height: 4;
+			color: #454545;
+
+			tr {
+				margin-top: 10px;
+				border-bottom: 1px dotted #898989;
+				td {
+					height: 20px;
+					vertical-align: middle;
+
+					&.server-name {
+						a {
+							color: #ff4444;
+
+							&:hover {
+								text-decoration: underline;
+							}
+						}
+					}
+
+					&.player-count {
+						position: relative;
+
+						.progress {
+							height: 15px;
+							width: 70%;
+							box-shadow: 0 0 3px #b4b4b4 inset;
+							display: block;
+							border-radius: 3px;
+							overflow: hidden;
+							position: absolute;
+							left: 50%;
+							top: 50%;
+							transform: translate(-50%, -50%);
+							.graphical-value {
+								position: absolute;
+								left: 0;
+								border-radius: 3px;
+								top: 0;
+								background: linear-gradient(45deg, #2b80ff, #19ff40);
+								height: 100%;
+								transition: 1s;
+							}
+							.value {
+								text-align: center;
+								font-size: 9px;
+								width: 100%;
+								line-height: 13px;
+								position: absolute;
+								left: 0;
+								top: 0;
+								user-select: none;
+							}
+						}
+					}
+
+					&.join-server {
+						a {
+							background: #00c200;
+							color: #fff;
+							padding: 5px 11px;
+							font-size: 12px;
+							border-radius: 5px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
