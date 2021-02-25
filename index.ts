@@ -1,18 +1,37 @@
 import express from "express";
 import path from "path";
+import helmet from "helmet";
+import config from "./app/config/configuration";
+import sequelize from "./app/models/models";
+
+// Routes
+import apiRoute from "./app/routes/api/api";
 
 const app = express();
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, "client/build")));
+app.use(express.json());
+app.use(helmet()); // Secure the server
 
-// The "catchall" handler: for any request that doesn't
-// match one above, send back React's index.html file.
+sequelize
+	.authenticate()
+	.then(() => {})
+	.catch((error) => {
+		console.error("Failed to connect to database. Error: ");
+		console.error(error);
+	});
+
+// ======================= Routing ======================= //
+// ====== api ====== //
+app.use("/api", apiRoute);
+
+// ====== Serve React client app ====== //
+app.use(express.static(path.join(__dirname, "/client/build"))); // Serve React static files
+// Render app index.html file to client on any route that doesn't found; So react-router can handle that.
 app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
-const port = process.env.PORT || 80;
-app.listen(port, () => {
-	console.log(`Webcod server listening on port: ${port}`);
+// ====== Listning for requests ====== //
+app.listen(config.address.port, () => {
+	console.log(`Webcod server listening on port: ${config.address.url}`);
 });
