@@ -7,31 +7,37 @@ import sequelize from "./app/models/models";
 // Routes
 import apiRoute from "./app/routes/api/api";
 
-const app = express();
+function startServer() {
+	// ======================= Database ======================= //
+	sequelize
+		.authenticate()
+		.then(() => {})
+		.catch((error) => {
+			console.error("Failed to connect to database. Error: ");
+			console.error(error);
+		});
 
-app.use(express.json());
-app.use(helmet()); // Secure the server
+	// ======================= Express ======================= //
+	const app = express();
 
-sequelize
-	.authenticate()
-	.then(() => {})
-	.catch((error) => {
-		console.error("Failed to connect to database. Error: ");
-		console.error(error);
+	app.use(express.json());
+	app.use(helmet()); // Secure the server
+
+	// ============= Routing ============= //
+	// ====== api ====== //
+	app.use("/api", apiRoute);
+
+	// ====== Serve React client app ====== //
+	app.use(express.static(path.join(__dirname, "/client/build"))); // Serve React static files
+	// Render app index.html file to client on any route that doesn't found; So react-router can handle that.
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(__dirname + "/client/build/index.html"));
 	});
 
-// ======================= Routing ======================= //
-// ====== api ====== //
-app.use("/api", apiRoute);
+	// ====== Listning for requests ====== //
+	app.listen(config.address.port, () => {
+		console.log(`Webcod server listening on port: ${config.address.url}`);
+	});
+}
 
-// ====== Serve React client app ====== //
-app.use(express.static(path.join(__dirname, "/client/build"))); // Serve React static files
-// Render app index.html file to client on any route that doesn't found; So react-router can handle that.
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname + "/client/build/index.html"));
-});
-
-// ====== Listning for requests ====== //
-app.listen(config.address.port, () => {
-	console.log(`Webcod server listening on port: ${config.address.url}`);
-});
+startServer();
