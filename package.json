@@ -3,12 +3,13 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "nodemon ./index.ts",
-		"start": "ts-node ./index.ts"
+		"dev": "set NODE_ENV=development && npx sequelize db:migrate && nodemon ./index.ts",
+		"start": "set NODE_ENV=production && npx sequelize db:migrate && ts-node ./index.ts"
 	},
 	"dependencies": {
 		"cookie-parser": "~1.4.4",
 		"debug": "~2.6.9",
+		"dotenv": "^8.2.0",
 		"express": "~4.16.1",
 		"express-validator": "^6.10.0",
 		"helmet": "^4.4.1",
@@ -24,6 +25,7 @@
 		"@types/mysql": "^2.15.17",
 		"@types/node": "^14.14.31",
 		"nodemon": "^2.0.7",
+		"sequelize-cli": "^6.2.0",
 		"ts-node": "^9.1.1",
 		"typescript": "^4.1.5"
 	}

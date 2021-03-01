@@ -23,29 +23,5 @@ export default function createServerModel(sequelize: Sequelize) {
 			type: DataTypes.ENUM("CoD4x", "Minecraft"),
 			allowNull: false,
 		},
-		has_db: {
-			type: DataTypes.BOOLEAN,
-			defaultValue: false,
-		},
-		db_host: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			defaultValue: "localhost",
-		},
-		db_user: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			defaultValue: "root",
-		},
-		db_password: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			defaultValue: "",
-		},
-		db_name: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			defaultValue: "",
-		},
 	});
 }

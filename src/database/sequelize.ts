@@ -2,13 +2,13 @@ import { Sequelize } from "sequelize";
 import config from "../config/configuration";
 
 // Models
-import serverModel from "./server";
+import serverModel from "./models/server";
 
 const modelCreators = [serverModel];
 
-const sequelize = new Sequelize(config.mySql.name, config.mySql.user, config.mySql.password, {
-	host: config.mySql.host,
-	dialect: "mysql",
+const sequelize = new Sequelize(config.db.name, config.db.user, config.db.password, {
+	host: config.db.host,
+	dialect: config.db.dialect,
 	omitNull: true,
 	define: {
 		charset: "utf8",

@@ -34,4 +34,7 @@ npm-debug.log
 
 .DS_Store
 
+# env files
 .env
+.env.development
+.env.production

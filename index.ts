@@ -1,11 +1,11 @@
 import express from "express";
 import path from "path";
 import helmet from "helmet";
-import config from "./app/config/configuration";
-import sequelize from "./app/models/models";
+import config from "./src/config/configuration";
+import sequelize from "./src/database/sequelize";
 
 // Routes
-import apiRoute from "./app/routes/api/api";
+import apiRoute from "./src/routes/api/api";
 
 function startServer() {
 	// ======================= Database ======================= //

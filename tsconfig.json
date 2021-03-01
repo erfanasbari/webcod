@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"target": "es6",
 		"module": "commonjs",
+		"allowJs": true,
 		"rootDir": "./",
 		"outDir": "./build",
 		"esModuleInterop": true,
@@ -9,5 +10,5 @@
 		"resolveJsonModule": true
 	},
 	"include": ["./*.ts"],
-	"exclude": ["./build"]
+	"exclude": ["./client"]
 }
