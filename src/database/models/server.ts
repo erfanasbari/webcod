@@ -35,5 +35,13 @@ export default function createServerModel(sequelize: Sequelize) {
 			}),
 			allowNull: false,
 		},
+		nehoscreenshotsender: {
+			type: DataTypes.JSON,
+			defaultValue: JSON.stringify({
+				enabled: false,
+				identkey: "",
+			}),
+			allowNull: false,
+		},
 	});
 }
