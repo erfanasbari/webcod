@@ -20,7 +20,19 @@ export default function createServerModel(sequelize: Sequelize) {
 			allowNull: false,
 		},
 		server_type: {
-			type: DataTypes.ENUM("CoD4x", "Minecraft"),
+			type: DataTypes.ENUM("CoD4x"),
+			allowNull: false,
+			defaultValue: "CoD4x",
+		},
+		database: {
+			type: DataTypes.JSON,
+			defaultValue: JSON.stringify({
+				enabled: false,
+				host: "localhost",
+				user: "root",
+				password: "",
+				name: "cod4x",
+			}),
 			allowNull: false,
 		},
 	});

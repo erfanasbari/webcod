@@ -3,8 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "set NODE_ENV=development && npx sequelize db:migrate && nodemon ./index.ts",
-		"start": "set NODE_ENV=production && npx sequelize db:migrate && ts-node ./index.ts"
+		"dev": "set NODE_ENV=development&& npx sequelize db:migrate && nodemon ./index.ts",
+		"start": "set NODE_ENV=production&& npx sequelize db:migrate && ts-node ./index.ts"
 	},
 	"dependencies": {
 		"cookie-parser": "~1.4.4",
@@ -14,7 +14,6 @@
 		"express-validator": "^6.10.0",
 		"helmet": "^4.4.1",
 		"http-errors": "~1.6.3",
-		"knex": "^0.21.18",
 		"morgan": "~1.9.1",
 		"mysql2": "^2.2.5",
 		"rcon-srcds": "^2.0.1",
