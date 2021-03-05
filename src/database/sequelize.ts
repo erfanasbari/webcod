@@ -3,8 +3,9 @@ import config from "../config/configuration";
 
 // Models
 import serverModel from "./models/server";
+import userModel from "./models/user";
 
-const modelCreators = [serverModel];
+const modelCreators = [serverModel, userModel];
 
 const sequelize = new Sequelize(config.db.name, config.db.user, config.db.password, {
 	host: config.db.host,
