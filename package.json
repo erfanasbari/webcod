@@ -4,10 +4,13 @@
 	"private": true,
 	"scripts": {
 		"dev": "set NODE_ENV=development&& npx sequelize db:migrate && nodemon ./index.ts",
-		"start": "set NODE_ENV=production&& npx sequelize db:migrate && ts-node ./index.ts"
+		"start": "set NODE_ENV=production&& npx sequelize db:migrate && ts-node ./index.ts",
+		"make-admin": "ts-node ./scripts/makeAdmin.ts"
 	},
 	"dependencies": {
+		"bcrypt": "^5.0.1",
 		"cookie-parser": "~1.4.4",
+		"crypto-random-string": "^3.3.1",
 		"debug": "~2.6.9",
 		"dotenv": "^8.2.0",
 		"express": "~4.16.1",
@@ -20,6 +23,7 @@
 		"sequelize": "^6.5.0"
 	},
 	"devDependencies": {
+		"@types/bcrypt": "^3.0.0",
 		"@types/express": "^4.17.11",
 		"@types/mysql": "^2.15.17",
 		"@types/node": "^14.14.31",

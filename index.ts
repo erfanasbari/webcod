@@ -9,13 +9,10 @@ import apiRoute from "./src/routes/api/api";
 
 function startServer() {
 	// ======================= Database ======================= //
-	sequelize
-		.authenticate()
-		.then(() => {})
-		.catch((error) => {
-			console.error("Failed to connect to database. Error: ");
-			console.error(error);
-		});
+	sequelize.authenticate().catch((error) => {
+		console.error("Failed to connect to database. Error: ");
+		console.error(error);
+	});
 
 	// ======================= Express ======================= //
 	const app = express();
