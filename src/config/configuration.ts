@@ -16,6 +16,9 @@ const config = {
 		port: jsonConfig.address.port,
 		url: `${jsonConfig.address.SSL ? "https" : "http"}://${jsonConfig.address.domain}${jsonConfig.address.port !== 80 ? `:${jsonConfig.address.port}` : ""}`,
 	},
+	session: {
+		secret: process.env.SESSION_SECRET || "Test Secret",
+	},
 };
 
 export default config;
