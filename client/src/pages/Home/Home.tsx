@@ -1,7 +1,6 @@
-import react from "react";
 import {} from "react-router-dom";
-import generalConfig from "./../../config/general";
-import { PageTitle } from "./../../components/StyledComponents/StyledComponents";
+import generalConfig from "../../config/general";
+import { PageTitle } from "../../components/StyledComponents/StyledComponents";
 import "./Home.scss";
 
 export default function Home() {

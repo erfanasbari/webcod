@@ -7,8 +7,8 @@ export default function configurePassport(passport: PassportStatic) {
 	passport.use(
 		new LocalStrategy(async (username, password, done) => {
 			const user = await sequelize.models.user.findOne({ where: { username } });
-			if (!user) return done(null, false, { message: "no user found" });
-			if (!bcrypt.compareSync(password, user.get("password") as string)) return done(null, false, { message: "incorrect password" });
+			if (!user) return done(null, false, { message: "This username does not exist." });
+			if (!bcrypt.compareSync(password, user.get("password") as string)) return done(null, false, { message: "Password was not correct." });
 			return done(null, user);
 		})
 	);

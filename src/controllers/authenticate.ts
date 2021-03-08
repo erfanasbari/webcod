@@ -31,7 +31,7 @@ export async function loginRoute(req: Request, res: Response, next: NextFunction
 			});
 			throw error;
 		}
-		if (!user) res.status(401).json(info);
+		if (!user) res.status(401).json({ errors: [info] });
 		else {
 			req.login(user, (err) => {
 				if (err) throw err;

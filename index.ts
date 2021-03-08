@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import cors from "cors";
 import helmet from "helmet";
 import passport from "passport";
 import session from "express-session";
@@ -23,6 +24,15 @@ function startServer() {
 
 	// ======================= Express ======================= //
 	const app = express();
+
+	if (process.env.NODE_ENV === "development") {
+		app.use(
+			cors({
+				origin: "http://localhost:3000",
+				credentials: true,
+			})
+		);
+	}
 
 	app.use(express.json());
 	app.use(express.urlencoded({ extended: true }));
