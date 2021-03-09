@@ -10,11 +10,6 @@ import ShowPasswordIcon from "../../components/ShowPasswordIcon/ShowPasswordIcon
 import { PageTitle } from "../../components/StyledComponents/StyledComponents";
 import "./Login.scss";
 
-interface LoginFormValues {
-	username: string;
-	password: string;
-}
-
 const SignInSchema = Yup.object().shape({
 	username: Yup.string().min(3, "At least 3 characters").max(32, "At most 32 characters"),
 	password: Yup.string().min(6, "Must be at least 6 characters"),

@@ -10,13 +10,6 @@ import ShowPasswordIcon from "../../components/ShowPasswordIcon/ShowPasswordIcon
 import { PageTitle } from "../../components/StyledComponents/StyledComponents";
 import "./Register.scss";
 
-interface RegisterFormValues {
-	username: string;
-	password: string;
-	repeatPassword: string;
-	email: string;
-}
-
 const RegisterSchema = Yup.object().shape({
 	username: Yup.string().min(3, "At least 3 characters").max(32, "At most 32 characters"),
 	email: Yup.string().email(),
