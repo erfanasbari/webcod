@@ -7,7 +7,10 @@
 	.input {
 		width: 100%;
 		margin-top: 20px;
-		background-color: white;
+
+		.MuiInputBase-root {
+			background-color: white;
+		}
 	}
 	.submit {
 		margin-top: 20px;
