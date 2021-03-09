@@ -6,7 +6,7 @@ import sequelize from "../database/sequelize";
 
 export async function registerRoute(req: Request, res: Response) {
 	try {
-		if (await sequelize.models.user.findOne({ where: { username: req.body.username } })) return res.json({ message: "username already exists" });
+		if (await sequelize.models.user.findOne({ where: { username: req.body.username } })) return res.status(401).json({ errors: [{ message: "This username already exists." }] });
 		const hash = await bcrypt.hash(req.body.password, 10);
 		const user = await sequelize.models.user.create({
 			username: req.body.username,
@@ -14,7 +14,9 @@ export async function registerRoute(req: Request, res: Response) {
 			email: req.body.email,
 			salt_key: "empty",
 		});
-		res.json({ message: "success" });
+		req.logIn(user, () => {
+			res.json({ message: "success" });
+		});
 	} catch (error) {
 		res.status(500).json({
 			errors: [{ message: "server error" }],

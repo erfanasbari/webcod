@@ -1,5 +1,13 @@
 import axios from "./configureApi";
 
+export const register = async (username: string, email: string, password: string) => {
+	return axios.post("auth/register", {
+		username,
+		password,
+		email,
+	});
+};
+
 export const login = async (username: string, password: string) => {
 	return axios.post("auth/login", {
 		username,
@@ -16,6 +24,7 @@ export const logOut = async () => {
 };
 
 const exports = {
+	register,
 	login,
 	getUser,
 	logOut,

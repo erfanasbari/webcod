@@ -1,44 +1,53 @@
 import { useState } from "react";
-import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logIn } from "../../store/user";
+import { register } from "../../store/user";
+import { Redirect } from "react-router-dom";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { Button, TextField } from "@material-ui/core";
 import ShowPasswordIcon from "../../components/ShowPasswordIcon/ShowPasswordIcon";
 import { PageTitle } from "../../components/StyledComponents/StyledComponents";
-import "./Login.scss";
+import "./Register.scss";
 
-interface LoginFormValues {
+interface RegisterFormValues {
 	username: string;
 	password: string;
+	repeatPassword: string;
+	email: string;
 }
 
-const Login = () => {
+const Register = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
 	const [showPassword, setShowPassword] = useState(false);
 
-	const onFormSubmit = ({ username, password }: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
-		dispatch(logIn(username, password, () => setSubmitting(false)));
+	const handleSubmitRegister = ({ username, email, password }: RegisterFormValues, { setSubmitting }: FormikHelpers<RegisterFormValues>) => {
+		dispatch(
+			register(username, password, email, () => {
+				setSubmitting(false);
+			})
+		);
 	};
 
 	return (
 		<>
 			{user.logged && <Redirect to={"/"} />}
-			<PageTitle>Login</PageTitle>
-			<section className="login">
+			<PageTitle>Register</PageTitle>
+			<section className="register">
 				<Formik
 					initialValues={
 						{
 							username: "",
+							email: "",
 							password: "",
-						} as LoginFormValues
+							repeatPassword: "",
+						} as RegisterFormValues
 					}
-					onSubmit={onFormSubmit}
+					onSubmit={handleSubmitRegister}
 				>
 					{({ isSubmitting }) => (
 						<Form>
 							<Field name="username" type="input" autoFocus={true} variant="outlined" label="Username" className="input" color="primary" as={TextField} />
+							<Field name="email" type="email" variant="outlined" label="Email" className="input" color="primary" as={TextField} />
 							<Field
 								name="password"
 								type={showPassword ? "text" : "password"}
@@ -46,13 +55,14 @@ const Login = () => {
 								label="Password"
 								className="input"
 								color="primary"
+								as={TextField}
 								InputProps={{
 									endAdornment: <ShowPasswordIcon showPassword={showPassword} setShowPassword={setShowPassword} />,
 								}}
-								as={TextField}
 							/>
-							<Button disabled={isSubmitting} className="submit" type="submit" variant="contained" size="large" color="primary">
-								Sign in
+							<Field name="repeatPassword" type="password" variant="outlined" label="Repeat password" className="input" color="primary" as={TextField} />
+							<Button disabled={isSubmitting} className="submit" type="submit" variant="contained" size="large" color="secondary">
+								Register
 							</Button>
 						</Form>
 					)}
@@ -62,4 +72,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Register;

@@ -2,8 +2,6 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../../store/user";
-import { createSnackbar } from "../../store/ui";
-import authApi from "../../api/auth";
 import "./Navigation.scss";
 
 export default function Navigation() {
@@ -11,10 +9,7 @@ export default function Navigation() {
 	const user = useSelector((state) => state.user);
 
 	const logoutHandler = async (e: React.SyntheticEvent) => {
-		await authApi.logOut().then((result) => {
-			dispatch(logOut());
-			dispatch(createSnackbar({ severity: "info", title: "Info", message: "Successfully Logged Out Of Account." }));
-		});
+		dispatch(logOut());
 		e.preventDefault();
 	};
 

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "./api/auth";
 import { updateUser } from "./store/user";
 import Navigation from "./components/Navigation/Navigation";
 import AppBackground from "./components/AppBackground/AppBackground";
@@ -11,27 +10,15 @@ import "./App.scss";
 // Pages
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
+import Register from "./pages/Register/Register";
 
 export default function App() {
 	const dispatch = useDispatch();
 	const snackBars = useSelector((state) => state.ui.snackbars);
 
 	useEffect(() => {
-		getUser()
-			.then((result) => {
-				dispatch(
-					updateUser({
-						logged: true,
-						username: result.data.username,
-						email: result.data.email,
-						role: result.data.role,
-					})
-				);
-			})
-			.catch(({ response }) => {
-				console.log(response);
-			});
-	}, []);
+		dispatch(updateUser());
+	}, [dispatch]);
 
 	return (
 		<>
@@ -43,6 +30,7 @@ export default function App() {
 						<Switch>
 							<Route path="/" exact component={Home} />
 							<Route path="/login" exact component={Login} />
+							<Route path="/register" exact component={Register} />
 						</Switch>
 					</main>
 				</section>
