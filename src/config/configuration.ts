@@ -1,10 +1,9 @@
 import "./dotenv";
 import jsonConfig from "./config.json";
-import { Dialect } from "sequelize";
 
 const config = {
 	db: {
-		dialect: "mysql" as Dialect,
+		dialect: "mysql",
 		host: process.env.DB_HOST || "localhost",
 		user: process.env.DB_USER || "root",
 		password: process.env.DB_PASSWORD || "",

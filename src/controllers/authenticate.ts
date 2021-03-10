@@ -1,18 +1,26 @@
 import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import bcrypt from "bcrypt";
-import { Model } from "sequelize";
-import sequelize from "../database/sequelize";
+import prisma from "../prisma/client";
+import { users } from "@prisma/client";
+
+declare global {
+	namespace Express {
+		interface User extends users {}
+	}
+}
 
 export async function registerRoute(req: Request, res: Response) {
 	try {
-		if (await sequelize.models.user.findOne({ where: { username: req.body.username } })) return res.status(401).json({ errors: [{ message: "This username already exists." }] });
+		if (await prisma.users.findUnique({ where: { username: req.body.username } })) return res.status(401).json({ errors: [{ message: "This username already exists." }] });
 		const hash = await bcrypt.hash(req.body.password, 10);
-		const user = await sequelize.models.user.create({
-			username: req.body.username,
-			password: hash,
-			email: req.body.email,
-			salt_key: "empty",
+		const user = await prisma.users.create({
+			data: {
+				username: req.body.username,
+				password: hash,
+				email: req.body.email,
+				salt_key: "",
+			},
 		});
 		req.logIn(user, () => {
 			res.json({ message: "success" });
@@ -49,12 +57,12 @@ export function logoutRoute(req: Request, res: Response) {
 }
 
 export function userRoute(req: Request, res: Response) {
-	const user = req.user as Model;
+	const user = req.user;
 	res.json({
-		id: user.get("id"),
-		username: user.get("username"),
-		email: user.get("email"),
-		role: user.get("role"),
+		id: user?.id,
+		username: user?.username,
+		email: user?.email,
+		role: user?.role,
 	});
 }
 
@@ -74,8 +82,8 @@ export function checkIsNotAuthenticated(req: Request, res: Response, next: NextF
 
 export function checkUserRole(role: number) {
 	return async (req: Request, res: Response, next: NextFunction) => {
-		const user = req.user as Model;
-		if ((user.get("role") as number) >= role) return next();
+		const user = req.user;
+		if ((user?.role as number) >= role) return next();
 		res.status(403).json({
 			errors: [{ message: "insufficient role" }],
 		});

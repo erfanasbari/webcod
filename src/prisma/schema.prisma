@@ -1,0 +1,31 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model servers {
+  id                   Int                 @id @default(autoincrement())
+  name                 String              @db.VarChar(255)
+  ip                   String              @db.VarChar(255)
+  port                 Int
+  server_type          servers_server_type @default(CoD4x)
+  database             String              @db.LongText
+  nehoscreenshotsender String              @db.LongText
+}
+
+model users {
+  id       Int    @id @default(autoincrement())
+  username String @unique @db.VarChar(255)
+  password String @db.VarChar(255)
+  salt_key String @db.VarChar(255)
+  email    String @db.VarChar(255)
+  role     Int    @default(0)
+}
+
+enum servers_server_type {
+  CoD4x
+}

@@ -5,7 +5,7 @@ import helmet from "helmet";
 import passport from "passport";
 import session from "express-session";
 import config from "./src/config/configuration";
-import sequelize from "./src/database/sequelize";
+import prisma from "./src/prisma/client";
 import configurePassport from "./src/config/passport";
 
 // Routes
@@ -13,14 +13,6 @@ import apiRoute from "./src/routes/api/api";
 
 function startServer() {
 	// ======================= Database ======================= //
-	sequelize
-		.authenticate()
-		.then(() => {
-			console.log("Connected to database successfully.");
-		})
-		.catch((error) => {
-			throw error;
-		});
 
 	// ======================= Express ======================= //
 	const app = express();
@@ -57,7 +49,7 @@ function startServer() {
 
 	// ====== Listning for requests ====== //
 	app.listen(config.address.port, () => {
-		console.log(`Webcod server listening on port: ${config.address.url}`);
+		console.log(`Webcod server listening on: ${config.address.url}`);
 	});
 }
 
