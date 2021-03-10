@@ -41,7 +41,7 @@ const Login = () => {
 				>
 					{({ isSubmitting, errors }) => (
 						<Form>
-							<Field name="username" type="input" autoFocus={true} variant="outlined" label="Username" className="input" color="primary" as={TextField} {...checkYupError(errors.username)} />
+							<Field name="username" type="input" autoFocus={true} variant="outlined" label="Username" className="input" color="primary" as={TextField} {...checkYupError(errors.username)} required />
 							<Field
 								name="password"
 								type={showPassword ? "text" : "password"}
@@ -54,6 +54,7 @@ const Login = () => {
 								}}
 								as={TextField}
 								{...checkYupError(errors.password)}
+								required
 							/>
 							<Button disabled={isSubmitting} className="submit" type="submit" variant="contained" size="large" color="primary">
 								Sign in

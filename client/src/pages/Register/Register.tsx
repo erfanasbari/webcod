@@ -51,8 +51,8 @@ const Register = () => {
 				>
 					{({ isSubmitting, errors }) => (
 						<Form>
-							<Field name="username" type="input" autoFocus={true} variant="outlined" label="Username" className="text-field" color="primary" as={TextField} {...checkYupError(errors.username)} />
-							<Field name="email" type="email" variant="outlined" label="Email" className="text-field" color="primary" as={TextField} {...checkYupError(errors.email)} />
+							<Field name="username" type="input" autoFocus={true} variant="outlined" label="Username" className="text-field" color="primary" as={TextField} {...checkYupError(errors.username)} required />
+							<Field name="email" type="email" variant="outlined" label="Email" className="text-field" color="primary" as={TextField} {...checkYupError(errors.email)} required />
 							<Field
 								name="password"
 								type={showPassword ? "text" : "password"}
@@ -65,8 +65,9 @@ const Register = () => {
 									endAdornment: <ShowPasswordIcon showPassword={showPassword} setShowPassword={setShowPassword} />,
 								}}
 								{...checkYupError(errors.password)}
+								required
 							/>
-							<Field name="repeatPassword" type="password" variant="outlined" label="Repeat password" className="text-field" color="primary" as={TextField} {...checkYupError(errors.repeatPassword)} />
+							<Field name="repeatPassword" type="password" variant="outlined" label="Repeat password" className="text-field" color="primary" as={TextField} {...checkYupError(errors.repeatPassword)} required />
 							<Button disabled={isSubmitting} className="submit" type="submit" variant="contained" size="large" color="secondary">
 								Register
 							</Button>
