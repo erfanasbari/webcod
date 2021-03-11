@@ -1,5 +1,5 @@
 import readline from "readline";
-import sequelize from "../src/database/sequelize";
+import prisma from "../src/prisma/client";
 
 const rl = readline.createInterface({
 	input: process.stdin,
@@ -7,14 +7,18 @@ const rl = readline.createInterface({
 });
 
 rl.question("Enter the username that you want to make admin: ", async (answer) => {
-	const user = await sequelize.models.user.findOne({ attributes: ["role"], where: { username: answer } });
+	const user = await prisma.users.findUnique({ where: { username: answer } });
 	if (user) {
-		if (user.get("role") === 100) console.log(`${answer} is already an admin!`);
+		if (user.role === 100) console.log(`${answer} is already an admin!`);
 		else {
-			await sequelize.models.user.update({ role: 100 }, { where: { username: answer } });
+			await prisma.users.update({
+				data: { role: 100 },
+				where: { username: answer },
+			});
 			console.log(`Changed the role of ${answer} to 100.`);
 		}
-	} else console.log(`There is no user called ${answer}!`);
+	} else console.log(`There is no user called ${answer}`);
 
+	prisma.$disconnect();
 	rl.close();
 });
