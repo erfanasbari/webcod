@@ -3,11 +3,11 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"dev": "npx cross-env NODE_ENV=development&& npx prisma generate && nodemon ./index.ts",
-		"start": "npx cross-env NODE_ENV=production&& npx prisma generate && ts-node ./index.ts",
-		"prisma-generate": "npx prisma generate",
-		"prisma-introspect": "npx dotenv -e .env -e .env.development -e ./src/prisma/prisma.env -- npx prisma introspect",
-		"prisma-studio": "npx dotenv -e .env -e .env.development -e ./src/prisma/prisma.env -- npx prisma studio",
+		"dev": "cross-env-shell NODE_ENV=development \"prisma generate && nodemon ./index.ts\"",
+		"start": "cross-env-shell NODE_ENV=production \"prisma generate && ts-node ./index.ts\"",
+		"prisma-generate": "prisma generate",
+		"prisma-introspect": "dotenv -e .env -e .env.development -e ./src/prisma/prisma.env -- prisma introspect",
+		"prisma-studio": "dotenv -e .env -e .env.development -e ./src/prisma/prisma.env -- prisma studio",
 		"make-admin": "ts-node ./scripts/makeAdmin.ts"
 	},
 	"dependencies": {
@@ -32,11 +32,9 @@
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^3.0.0",
-		"@types/connect-flash": "0.0.36",
 		"@types/cors": "^2.8.10",
 		"@types/express": "^4.17.11",
 		"@types/express-session": "^1.17.3",
-		"@types/mysql": "^2.15.17",
 		"@types/node": "^14.14.31",
 		"@types/passport": "^1.0.6",
 		"@types/passport-local": "^1.0.33",
@@ -45,7 +43,7 @@
 		"nodemon": "^2.0.7",
 		"prisma": "^2.18.0",
 		"ts-node": "^9.1.1",
-		"typescript": "^4.1.5"
+		"typescript": "^4.2.3"
 	},
 	"prisma": {
 		"schema": "./src/prisma/schema.prisma"

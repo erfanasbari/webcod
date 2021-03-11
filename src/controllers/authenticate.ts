@@ -2,13 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import bcrypt from "bcrypt";
 import prisma from "../prisma/client";
-import { users } from "@prisma/client";
-
-declare global {
-	namespace Express {
-		interface User extends users {}
-	}
-}
 
 export async function registerRoute(req: Request, res: Response) {
 	try {
