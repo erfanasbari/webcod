@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
-import dotenvExpand from "dotenv-expand";
-import path from "path";
+const dotenv = require("dotenv");
+const dotenvExpand = require("dotenv-expand");
+const path = require("path");
 
-function checkEnvResult(configOutput: dotenv.DotenvConfigOutput) {
+function checkEnvResult(configOutput) {
 	const expandOutput = dotenvExpand(configOutput);
 	if (expandOutput.error) throw expandOutput.error;
 }
