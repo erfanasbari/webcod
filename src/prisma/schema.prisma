@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model servers {
+  id            Int          @id @default(autoincrement())
+  type          servers_type @default(CoD4x)
+  name          String       @unique @db.VarChar(255)
+  ip            String       @default("localhost") @db.VarChar(15)
+  port          Int          @default(28960)
+  rcon_password String       @db.VarChar(255)
+  db_enabled    Boolean      @default(false)
+  db_username   String       @db.VarChar(255)
+  db_password   String       @db.VarChar(255)
+  db_name       String       @db.VarChar(255)
+}
+
+model server_cache {
+  server_id      Int    @id
+  name           String @db.VarChar(255)
+  rules          String @db.VarChar(255)
+  map            String @db.VarChar(32)
+  max_players    Int
+  online_players Int
+  players_info   String @db.LongText
+}
+
+model server_options {
+  server_id                     Int     @id
+  nehoscreenshotsender_enabled  Boolean @default(false)
+  nehoscreenshotsender_identkey String  @db.VarChar(255)
+}
+
+model users {
+  id       Int    @id @default(autoincrement())
+  username String @unique @db.VarChar(128)
+  password String @db.VarChar(128)
+  email    String @db.VarChar(255)
+  role     Int    @default(0)
+}
+
+enum servers_type {
+  CoD4x
+}

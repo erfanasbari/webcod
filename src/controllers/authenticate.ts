@@ -1,18 +1,24 @@
 import { Request, Response, NextFunction } from "express";
 import passport from "passport";
 import bcrypt from "bcrypt";
-import { Model } from "sequelize";
-import sequelize from "../database/sequelize";
+import prisma from "../prisma/client";
+
+export function RequestHasUser(req: Request): asserts req is Request & Express.AuthenticatedRequest {
+	if (!("user" in req)) {
+		throw new Error("Request object without user found unexpectedly");
+	}
+}
 
 export async function registerRoute(req: Request, res: Response) {
 	try {
-		if (await sequelize.models.user.findOne({ where: { username: req.body.username } })) return res.status(401).json({ errors: [{ message: "This username already exists." }] });
+		if (await prisma.users.findUnique({ where: { username: req.body.username } })) return res.status(401).json({ errors: [{ message: "This username already exists." }] });
 		const hash = await bcrypt.hash(req.body.password, 10);
-		const user = await sequelize.models.user.create({
-			username: req.body.username,
-			password: hash,
-			email: req.body.email,
-			salt_key: "empty",
+		const user = await prisma.users.create({
+			data: {
+				username: req.body.username,
+				password: hash,
+				email: req.body.email,
+			},
 		});
 		req.logIn(user, () => {
 			res.json({ message: "success" });
@@ -49,17 +55,20 @@ export function logoutRoute(req: Request, res: Response) {
 }
 
 export function userRoute(req: Request, res: Response) {
-	const user = req.user as Model;
+	RequestHasUser(req);
 	res.json({
-		id: user.get("id"),
-		username: user.get("username"),
-		email: user.get("email"),
-		role: user.get("role"),
+		id: req.user.id,
+		username: req.user.username,
+		email: req.user.email,
+		role: req.user.role,
 	});
 }
 
 export function checkIsAuthenticated(req: Request, res: Response, next: NextFunction) {
-	if (req.isAuthenticated()) return next();
+	if (req.isAuthenticated()) {
+		if (!req.user) req.logOut();
+		else return next();
+	}
 	res.status(400).json({
 		errors: [{ message: "no user logged in" }],
 	});
@@ -74,8 +83,8 @@ export function checkIsNotAuthenticated(req: Request, res: Response, next: NextF
 
 export function checkUserRole(role: number) {
 	return async (req: Request, res: Response, next: NextFunction) => {
-		const user = req.user as Model;
-		if ((user.get("role") as number) >= role) return next();
+		RequestHasUser(req);
+		if (req.user.role >= role) return next();
 		res.status(403).json({
 			errors: [{ message: "insufficient role" }],
 		});
