@@ -12,7 +12,6 @@ export async function registerRoute(req: Request, res: Response) {
 				username: req.body.username,
 				password: hash,
 				email: req.body.email,
-				salt_key: "",
 			},
 		});
 		req.logIn(user, () => {
