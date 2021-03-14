@@ -15,6 +15,8 @@ model servers {
   port          Int          @default(28960)
   rcon_password String       @db.VarChar(255)
   db_enabled    Boolean      @default(false)
+  db_host       String       @db.VarChar(255)
+  db_port       Int          @default(3306)
   db_username   String       @db.VarChar(255)
   db_password   String       @db.VarChar(255)
   db_name       String       @db.VarChar(255)

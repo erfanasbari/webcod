@@ -20,6 +20,8 @@ module.exports = {
 			port: { type: Sequelize.INTEGER(5), defaultValue: 28960, allowNull: false },
 			rcon_password: { type: Sequelize.STRING(255), allowNull: false },
 			db_enabled: { type: Sequelize.BOOLEAN, defaultValue: false, allowNull: false },
+			db_host: { type: Sequelize.STRING(255), allowNull: false },
+			db_port: { type: Sequelize.INTEGER(5), defaultValue: 3306, allowNull: false },
 			db_username: { type: Sequelize.STRING(255), allowNull: false },
 			db_password: { type: Sequelize.STRING(255), allowNull: false },
 			db_name: { type: Sequelize.STRING(255), allowNull: false },
