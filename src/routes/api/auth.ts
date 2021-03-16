@@ -5,12 +5,8 @@ import { body } from "express-validator";
 import { validateSequential } from "../../include/validator";
 import prisma from "../../prisma/client";
 
-// Controllers
-import {
-	RequestHasUser,
-	checkIsAuthenticated,
-	checkIsNotAuthenticated,
-} from "../../controllers/authenticate";
+import { RequestHasUser } from "../../helpers/auth";
+import { checkIsAuthenticated, checkIsNotAuthenticated } from "../../middlewares/auth";
 
 let router = express.Router();
 
