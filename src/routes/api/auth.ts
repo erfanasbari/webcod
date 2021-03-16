@@ -2,7 +2,7 @@ import express from "express";
 import passport from "passport";
 import bcrypt from "bcrypt";
 import { body } from "express-validator";
-import { validateSequential } from "../../include/validator";
+import { validateSequential } from "../../helpers/validator";
 import prisma from "../../prisma/client";
 
 import { RequestHasUser } from "../../helpers/auth";
