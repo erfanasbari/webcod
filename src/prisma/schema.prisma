@@ -8,34 +8,34 @@ datasource db {
 }
 
 model servers {
-  id            Int          @id @default(autoincrement())
-  type          servers_type @default(CoD4x)
-  name          String       @unique @db.VarChar(255)
-  ip            String       @default("localhost") @db.VarChar(15)
-  port          Int          @default(28960)
-  rcon_password String       @db.VarChar(255)
-  db_enabled    Boolean      @default(false)
-  db_host       String       @db.VarChar(255)
-  db_port       Int          @default(3306)
-  db_username   String       @db.VarChar(255)
-  db_password   String       @db.VarChar(255)
-  db_name       String       @db.VarChar(255)
+  id            Int           @id @default(autoincrement())
+  appId         servers_appId
+  name          String        @unique @db.VarChar(255)
+  ip            String        @db.VarChar(15)
+  port          Int
+  rcon_password String        @db.VarChar(255)
+  db_enabled    Boolean       @default(false)
+  db_host       String        @default("") @db.VarChar(255)
+  db_port       Int           @default(3306)
+  db_username   String        @default("") @db.VarChar(255)
+  db_password   String        @default("") @db.VarChar(255)
+  db_name       String        @default("") @db.VarChar(255)
 }
 
 model server_cache {
   server_id      Int    @id
-  name           String @db.VarChar(255)
-  rules          String @db.VarChar(255)
-  map            String @db.VarChar(32)
-  max_players    Int
-  online_players Int
-  players_info   String @db.LongText
+  name           String @default("") @db.VarChar(255)
+  rules          String @default("") @db.VarChar(255)
+  map            String @default("") @db.VarChar(32)
+  max_players    Int    @default(0)
+  online_players Int    @default(0)
+  players_info   String @default("") @db.LongText
 }
 
 model server_options {
   server_id                     Int     @id
   nehoscreenshotsender_enabled  Boolean @default(false)
-  nehoscreenshotsender_identkey String  @db.VarChar(255)
+  nehoscreenshotsender_identkey String  @default("") @db.VarChar(255)
 }
 
 model users {
@@ -46,6 +46,6 @@ model users {
   role     Int    @default(0)
 }
 
-enum servers_type {
+enum servers_appId {
   CoD4x
 }
