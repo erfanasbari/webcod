@@ -1,15 +1,18 @@
 import sourceQuery from "source-server-query";
+import config from "../../config/configuration";
 
 const serverQuery = {
-	isOnline: async (appId: GameServer.appId, host: string, port: number, timeout: number = 3000) => {
+	isOnline: async (appId: string, host: string, port: number, timeout: number = 3000) => {
 		try {
 			switch (appId) {
-				case 7940: {
-					// Call of Duty 4
+				case config.appIds.CoD4x: {
 					const info = await sourceQuery.info(host, port, timeout);
 					if (info?.appid !== 7940) return false;
 					return true;
 					break;
+				}
+				default: {
+					return false;
 				}
 			}
 		} catch {
