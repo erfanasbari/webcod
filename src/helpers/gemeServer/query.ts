@@ -7,7 +7,7 @@ const serverQuery = {
 			switch (appId) {
 				case config.appIds.CoD4x: {
 					const info = await sourceQuery.info(host, port, timeout);
-					if (info?.appid !== 7940) return false;
+					if (info.appid !== 7940) return false;
 					return true;
 					break;
 				}
