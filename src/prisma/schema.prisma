@@ -11,6 +11,7 @@ model servers {
   id            Int           @id @default(autoincrement())
   appId         servers_appId
   name          String        @unique @db.VarChar(255)
+  slug          String        @unique @db.VarChar(255)
   ip            String        @db.VarChar(15)
   port          Int
   rcon_password String        @db.VarChar(255)

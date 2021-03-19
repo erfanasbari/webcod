@@ -16,6 +16,7 @@ module.exports = {
 			id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true },
 			appId: { type: Sequelize.ENUM("CoD4x"), allowNull: false },
 			name: { type: Sequelize.STRING(255), unique: true, allowNull: false },
+			slug: { type: Sequelize.STRING(255), unique: true, allowNull: false },
 			ip: { type: Sequelize.STRING(15), allowNull: false },
 			port: { type: Sequelize.INTEGER(5), allowNull: false },
 			rcon_password: { type: Sequelize.STRING(255), allowNull: false },

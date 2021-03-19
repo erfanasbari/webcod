@@ -1,5 +1,6 @@
 import express from "express";
 import { body } from "express-validator";
+import slugify from "slugify";
 import mysql from "mysql2";
 import prisma from "../../../prisma/client";
 import { validateSequential, isValidAppId } from "../../../helpers/validator";
@@ -32,6 +33,7 @@ router.post(
 	]),
 	async (req, res) => {
 		let dbEnabled = false;
+		let slug = "";
 
 		if (await prisma.servers.findUnique({ where: { name: req.body.name } }))
 			return res.status(400).json({ errors: [{ message: "This server name already exist." }] });
@@ -60,10 +62,24 @@ router.post(
 		}
 
 		try {
+			slug = slugify(req.body.name, {
+				replacement: "_",
+				lower: true,
+				locale: "en",
+			});
+			let tempslug = slug;
+			for (let i = 0; true; i++) {
+				if (i > 0) tempslug = `${slug}-${i + 1}`;
+				if (await prisma.servers.findUnique({ where: { slug: tempslug } })) continue;
+				slug = tempslug;
+				break;
+			}
+
 			const server = await prisma.servers.create({
 				data: {
 					appId: req.body.appId,
 					name: req.body.name,
+					slug: slug,
 					ip: req.body.host,
 					port: req.body.port,
 					rcon_password: req.body.rconPassword,
