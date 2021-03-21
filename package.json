@@ -51,9 +51,24 @@
 		"sequelize": "^6.5.0",
 		"sequelize-cli": "^6.2.0",
 		"ts-node": "^9.1.1",
+		"tsconfig-paths": "^3.9.0",
 		"typescript": "^4.2.3"
 	},
 	"prisma": {
 		"schema": "./src/prisma/schema.prisma"
+	},
+	"nodemonConfig": {
+		"ignore": [
+			"**/*.test.ts",
+			"**/*.spec.ts",
+			".git",
+			"node_modules"
+		],
+		"watch": [
+			"index.ts",
+			"src"
+		],
+		"exec": "node -r tsconfig-paths/register -r ts-node/register ./index.ts",
+		"ext": "ts, js"
 	}
 }
