@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult, ValidationChain } from "express-validator";
-import config from "../config/configuration";
+import config from "@config/configuration";
 
 export function isValidAppId(appId: string) {
 	for (const [key, value] of Object.entries(config.appIds)) {

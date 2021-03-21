@@ -2,11 +2,11 @@ import express from "express";
 import passport from "passport";
 import bcrypt from "bcrypt";
 import { body } from "express-validator";
-import { validateSequential } from "../../helpers/validator";
-import prisma from "../../prisma/client";
+import { validateSequential } from "@helpers/validator";
+import prisma from "@db/client";
 
-import { RequestHasUser } from "../../helpers/auth";
-import { checkIsAuthenticated, checkIsNotAuthenticated } from "../../middlewares/auth";
+import { RequestHasUser } from "@helpers/auth";
+import { checkIsAuthenticated, checkIsNotAuthenticated } from "@middlewares/auth";
 
 let router = express.Router();
 

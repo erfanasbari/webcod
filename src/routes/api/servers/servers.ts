@@ -2,11 +2,12 @@ import express from "express";
 import { body } from "express-validator";
 import slugify from "slugify";
 import mysql from "mysql2";
-import prisma from "../../../prisma/client";
-import { validateSequential, isValidAppId } from "../../../helpers/validator";
-import { checkIsAuthenticated, checkUserRole } from "../../../middlewares/auth";
-import serverQuery from "../../../helpers/gemeServer/query";
-import serverRcon from "../../../helpers/gemeServer/rcon";
+import serverRoute from "./server";
+import prisma from "@db/client";
+import { validateSequential, isValidAppId } from "@helpers/validator";
+import { checkIsAuthenticated, checkUserRole } from "@middlewares/auth";
+import serverQuery from "@helpers/gemeServer/query";
+import serverRcon from "@helpers/gemeServer/rcon";
 
 let router = express.Router();
 
@@ -103,5 +104,7 @@ router.post(
 		return res.json({ messaage: "Server added successfully." });
 	}
 );
+
+router.use("/:serverSlug", serverRoute);
 
 export default router;

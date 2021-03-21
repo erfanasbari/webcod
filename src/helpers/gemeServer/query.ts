@@ -1,5 +1,5 @@
 import sourceQuery from "source-server-query";
-import config from "../../config/configuration";
+import config from "@config/configuration";
 
 const serverQuery = {
 	isOnline: async (appId: string, host: string, port: number, timeout: number = 3000) => {

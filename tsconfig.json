@@ -5,6 +5,12 @@
 		"baseUrl": ".",
 		"rootDir": ".",
 		"typeRoots": ["node_modules/@types", "src/@types"],
+		"paths": {
+			"@config/*": ["src/config/*"],
+			"@helpers/*": ["src/helpers/*"],
+			"@middlewares/*": ["src/middlewares/*"],
+			"@db/*": ["src/prisma/*"]
+		},
 		"outDir": "build",
 		"strict": true,
 		"allowJs": true,

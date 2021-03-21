@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { RequestHasUser } from "../helpers/auth";
+import { RequestHasUser } from "@helpers/auth";
 
 export function checkIsAuthenticated(req: Request, res: Response, next: NextFunction) {
 	if (req.isAuthenticated()) {

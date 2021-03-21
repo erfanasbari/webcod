@@ -1,5 +1,5 @@
 import Rcon from "rcon-srcds";
-import config from "../../config/configuration";
+import config from "@config/configuration";
 
 const serverRcon = {
 	isRcon: async (appId: string, host: string, port: number, rconPassword: string, timeout: number = 3000) => {
