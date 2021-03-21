@@ -4,12 +4,12 @@ import cors from "cors";
 import helmet from "helmet";
 import passport from "passport";
 import session from "express-session";
-import config from "./src/config/configuration";
-import prisma from "./src/prisma/client";
-import configurePassport from "./src/config/passport";
+import config from "@config/configuration";
+import prisma from "@db/client";
+import configurePassport from "@config/passport";
 
 // Routes
-import apiRoute from "./src/routes/api/api";
+import apiRoute from "@routes/api/api";
 
 function startServer() {
 	// ======================= Database ======================= //

@@ -9,7 +9,8 @@
 			"@config/*": ["src/config/*"],
 			"@helpers/*": ["src/helpers/*"],
 			"@middlewares/*": ["src/middlewares/*"],
-			"@db/*": ["src/prisma/*"]
+			"@db/*": ["src/prisma/*"],
+			"@routes/*": ["src/routes/*"]
 		},
 		"outDir": "build",
 		"strict": true,
