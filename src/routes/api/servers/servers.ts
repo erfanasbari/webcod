@@ -1,5 +1,7 @@
 import express from "express";
-import { body } from "express-validator";
+import { isString } from "lodash";
+import { body, query } from "express-validator";
+import { servers, server_cache, server_options } from "@prisma/client";
 import slugify from "slugify";
 import mysql from "mysql2";
 import serverRoute from "./server";
@@ -10,6 +12,66 @@ import serverQuery from "@helpers/gemeServer/query";
 import serverRcon from "@helpers/gemeServer/rcon";
 
 let router = express.Router();
+
+router.get("/", validateSequential([query("page").isInt({ min: 1 })]), async (req, res) => {
+	const serversPerPage = 10;
+	const page = isString(req.query.page) && parseInt(req.query.page) > 0 ? parseInt(req.query.page) : 1;
+
+	try {
+		const serversInfo = await prisma.servers.findMany({
+			take: serversPerPage,
+			skip: serversPerPage * (page - 1),
+		});
+		const serversOptions = await prisma.server_options.findMany({
+			take: serversPerPage,
+			skip: serversPerPage * (page - 1),
+		});
+		let serversCache = await prisma.server_cache.findMany({
+			take: serversPerPage,
+			skip: serversPerPage * (page - 1),
+		});
+
+		for (let i = 0; i < serversCache.length; i++) {
+			if (serversCache[i].last_update >= Math.floor(Date.now() / 1000) - 20) continue;
+			serversCache[i] = await serverQuery.updateServerCache(
+				serversInfo.find((server) => server.id === serversCache[i].server_id) as servers
+			);
+		}
+
+		const servers = serversInfo.map((serverInfo) => {
+			const options = serversOptions.find(
+				(serverOption) => serverOption.server_id === serverInfo.id
+			) as server_options;
+			const cache = serversCache.find(
+				(serverCache) => serverCache.server_id === serverInfo.id
+			) as server_cache;
+
+			return {
+				info: {
+					appId: serverInfo.appId,
+					name: serverInfo.name,
+					slug: serverInfo.slug,
+					ip: serverInfo.ip,
+					port: serverInfo.port,
+				},
+				options: {},
+				cache: {
+					name: cache.name,
+					map: cache.map,
+					max_players: cache.max_players,
+					online_players: cache.online_players,
+					is_online: cache.is_online,
+					last_update: cache.last_update,
+				},
+			};
+		});
+
+		return res.json(servers);
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ errors: [{ message: "Internal server error." }] });
+	}
+});
 
 router.post(
 	"/add",

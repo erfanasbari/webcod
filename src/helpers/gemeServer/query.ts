@@ -1,7 +1,7 @@
 import sourceQuery from "source-server-query";
 import config from "@config/configuration";
 import prisma from "@db/client";
-import { Prisma, servers } from ".prisma/client";
+import { servers } from "@prisma/client";
 
 const serverQuery = {
 	isOnline: async (appId: string, host: string, port: number, timeout: number = 3000) => {

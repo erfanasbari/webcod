@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
 		if (serverCache.last_update < Math.floor(Date.now() / 1000) - 20)
 			serverCache = await serverQuery.updateServerCache(req.server);
 
-		res.json({
+		return res.json({
 			info: {
 				appId: req.server.appId,
 				name: req.server.name,
