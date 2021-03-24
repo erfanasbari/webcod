@@ -24,14 +24,15 @@ model servers {
 }
 
 model server_cache {
-  server_id      Int    @id
-  name           String @default("") @db.VarChar(255)
-  rules          String @default("") @db.VarChar(255)
-  map            String @default("") @db.VarChar(32)
-  max_players    Int    @default(0)
-  online_players Int    @default(0)
-  players_info   String @default("") @db.LongText
-  last_update    Int    @default(0)
+  server_id      Int     @id
+  name           String  @default("") @db.VarChar(255)
+  rules          String  @default("") @db.VarChar(255)
+  map            String  @default("") @db.VarChar(32)
+  max_players    Int     @default(0)
+  online_players Int     @default(0)
+  players_info   String  @default("") @db.LongText
+  is_online      Boolean @default(true)
+  last_update    Int     @default(0)
 }
 
 model server_options {

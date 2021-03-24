@@ -44,7 +44,8 @@ module.exports = {
 			max_players: { type: Sequelize.INTEGER(4), defaultValue: 0, allowNull: false },
 			online_players: { type: Sequelize.INTEGER(4), defaultValue: 0, allowNull: false },
 			players_info: { type: Sequelize.TEXT("long"), defaultValue: "", allowNull: false },
-			last_update: { type: Sequelize.INTEGER(11), defaultValue: 0, allowNull: false },
+			is_online: { type: Sequelize.BOOLEAN, defaultValue: true, allowNull: false },
+			last_update: { type: Sequelize.INTEGER, defaultValue: 0, allowNull: false },
 		});
 	},
 
