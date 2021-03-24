@@ -31,6 +31,7 @@ model server_cache {
   max_players    Int    @default(0)
   online_players Int    @default(0)
   players_info   String @default("") @db.LongText
+  last_update    Int    @default(0)
 }
 
 model server_options {
