@@ -1,9 +1,19 @@
-import {} from "react-router-dom";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import generalConfig from "../../config/general";
+import { getServers } from "../../store/servers";
 import { PageTitle } from "../../components/StyledComponents/StyledComponents";
 import "./Home.scss";
 
 export default function Home() {
+	const dispatch = useDispatch();
+	const servers = useSelector((state) => state.servers);
+
+	useEffect(() => {
+		dispatch(getServers());
+	}, []);
+
 	return (
 		<>
 			<PageTitle>{generalConfig.app.name}'s Servers</PageTitle>
@@ -18,21 +28,28 @@ export default function Home() {
 						</tr>
 					</thead>
 					<tbody>
-						<tr className="server-item">
-							<td className="server-name">
-								<a href="http://cod4.baxir.ir/?id=9">BaxIrani[SD]</a>
-							</td>
-							<td className="player-count">
-								<span className="progress">
-									<span className="graphical-value" style={{ width: "83.333333333333%" }}></span>
-									<span className="value">20/24</span>
-								</span>
-							</td>
-							<td>Crash_snow</td>
-							<td className="join-server">
-								<a href="cod4://5.63.14.14:28960">Click To Join</a>
-							</td>
-						</tr>
+						{servers.list.map((server) => (
+							<tr className="server-item">
+								<td className="server-name">
+									<Link to={`/servers/${server.info.slug}`}>BaxIrani[SD]</Link>
+								</td>
+								<td className="player-count">
+									<span className="progress">
+										<span
+											className="graphical-value"
+											style={{ width: `${(server.cache.online_players * 100) / server.cache.max_players}%` }}
+										></span>
+										<span className="value">
+											{server.cache.online_players}/{server.cache.max_players}
+										</span>
+									</span>
+								</td>
+								<td>{server.cache.map}</td>
+								<td className="join-server">
+									<a href={`cod4://${server.info.ip}:${server.info.port}`}>Click To Join</a>
+								</td>
+							</tr>
+						))}
 					</tbody>
 				</table>
 			</section>
