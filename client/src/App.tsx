@@ -11,6 +11,7 @@ import "./App.scss";
 import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+import AddServer from "./pages/AddServer/AddServer";
 
 export default function App() {
 	const dispatch = useDispatch();
@@ -31,6 +32,14 @@ export default function App() {
 							<Route path="/" exact component={Home} />
 							<Route path="/login" exact component={Login} />
 							<Route path="/register" exact component={Register} />
+							<Route
+								path="/servers"
+								render={(props: any) => (
+									<Switch>
+										<Route path={`${props.match.path}/add`} exact component={AddServer} />
+									</Switch>
+								)}
+							/>
 						</Switch>
 					</main>
 				</section>

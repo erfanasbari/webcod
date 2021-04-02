@@ -6,8 +6,24 @@ export const getServers = async (page: number = 1) => {
 	});
 };
 
+export const addServer = async (values: AddServerFormValues) => {
+	return axios.post("/servers/add", {
+		appId: values.appId,
+		name: values.name,
+		host: values.host,
+		port: values.port,
+		rconPassword: values.rconPassword,
+		dbHost: values.dbHost,
+		dbPort: values.dbPort,
+		dbUser: values.dbUser,
+		dbPassword: values.dbPassword,
+		dbName: values.dbName,
+	});
+};
+
 const exports = {
 	getServers,
+	addServer,
 };
 
 export default exports;

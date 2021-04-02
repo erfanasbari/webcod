@@ -52,6 +52,19 @@ export default function Navigation() {
 							</>
 						)}
 					</ul>
+
+					{user.logged && user.role >= 80 && (
+						<>
+							<span className="menu-title">Admin</span>
+							<ul>
+								<li>
+									<NavLink to="/servers/add" exact>
+										Add server
+									</NavLink>
+								</li>
+							</ul>
+						</>
+					)}
 				</nav>
 				<div className="credit">
 					<span>
