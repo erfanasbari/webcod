@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import generalConfig from "../../config/general";
-import { getServers } from "../../store/servers";
-import { PageTitle } from "../../components/StyledComponents/StyledComponents";
+import generalConfig from "config/general";
+import { getServers } from "store/servers";
+import { PageTitle } from "components/StyledComponents/StyledComponents";
 import "./Home.scss";
 
 export default function Home() {

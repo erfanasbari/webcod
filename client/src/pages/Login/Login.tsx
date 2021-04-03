@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logIn } from "../../store/user";
+import { logIn } from "store/user";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { checkYupError } from "../../include/ui";
+import { checkYupError } from "include/ui";
 import { Button, TextField } from "@material-ui/core";
-import ShowPasswordIcon from "../../components/ShowPasswordIcon/ShowPasswordIcon";
-import { PageTitle } from "../../components/StyledComponents/StyledComponents";
+import ShowPasswordIcon from "components/ShowPasswordIcon/ShowPasswordIcon";
+import { PageTitle } from "components/StyledComponents/StyledComponents";
 import "./Login.scss";
 
 const SignInSchema = Yup.object().shape({
@@ -20,7 +20,10 @@ const Login = () => {
 	const user = useSelector((state) => state.user);
 	const [showPassword, setShowPassword] = useState(false);
 
-	const onFormSubmit = ({ username, password }: LoginFormValues, { setSubmitting }: FormikHelpers<LoginFormValues>) => {
+	const onFormSubmit = (
+		{ username, password }: LoginFormValues,
+		{ setSubmitting }: FormikHelpers<LoginFormValues>
+	) => {
 		dispatch(logIn(username, password, () => setSubmitting(false)));
 	};
 
@@ -41,7 +44,18 @@ const Login = () => {
 				>
 					{({ isSubmitting, errors }) => (
 						<Form>
-							<Field name="username" type="input" autoFocus={true} variant="outlined" label="Username" className="input" color="primary" as={TextField} {...checkYupError(errors.username)} required />
+							<Field
+								name="username"
+								type="input"
+								autoFocus={true}
+								variant="outlined"
+								label="Username"
+								className="input"
+								color="primary"
+								as={TextField}
+								{...checkYupError(errors.username)}
+								required
+							/>
 							<Field
 								name="password"
 								type={showPassword ? "text" : "password"}
@@ -50,13 +64,22 @@ const Login = () => {
 								className="input"
 								color="primary"
 								InputProps={{
-									endAdornment: <ShowPasswordIcon showPassword={showPassword} setShowPassword={setShowPassword} />,
+									endAdornment: (
+										<ShowPasswordIcon showPassword={showPassword} setShowPassword={setShowPassword} />
+									),
 								}}
 								as={TextField}
 								{...checkYupError(errors.password)}
 								required
 							/>
-							<Button disabled={isSubmitting} className="submit" type="submit" variant="contained" size="large" color="primary">
+							<Button
+								disabled={isSubmitting}
+								className="submit"
+								type="submit"
+								variant="contained"
+								size="large"
+								color="primary"
+							>
 								Sign in
 							</Button>
 						</Form>

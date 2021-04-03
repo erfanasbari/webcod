@@ -1,6 +1,6 @@
 import { createSlice, Thunk } from "@reduxjs/toolkit";
 import { createSnackbar } from "./ui";
-import authApi from "../api/auth";
+import authApi from "api/auth";
 
 const slice = createSlice({
 	name: "user",
@@ -20,23 +20,37 @@ const slice = createSlice({
 const { setUser } = slice.actions;
 export default slice.reducer;
 
-export const register = (username: string, password: string, email: string, callback: Function): Thunk => (dispatch, getState) => {
+export const register = (username: string, password: string, email: string, callback: Function): Thunk => (
+	dispatch,
+	getState
+) => {
 	authApi
 		.register(username, email, password)
 		.then((result) => {
 			dispatch(updateUser());
-			dispatch(createSnackbar({ severity: "success", title: "Success", message: "Your account has been registered." }));
+			dispatch(
+				createSnackbar({
+					severity: "success",
+					title: "Success",
+					message: "Your account has been registered.",
+				})
+			);
 		})
 		.catch(({ response }) => {
 			if (!response) return;
-			dispatch(createSnackbar({ severity: "error", title: "Error", message: response.data.errors[0].message }));
+			dispatch(
+				createSnackbar({ severity: "error", title: "Error", message: response.data.errors[0].message })
+			);
 		})
 		.finally(() => {
 			callback();
 		});
 };
 
-export const logIn = (username: string, password: string, callback: Function): Thunk => (dispatch, getState) => {
+export const logIn = (username: string, password: string, callback: Function): Thunk => (
+	dispatch,
+	getState
+) => {
 	authApi
 		.login(username, password)
 		.then((result) => {
@@ -45,7 +59,9 @@ export const logIn = (username: string, password: string, callback: Function): T
 		})
 		.catch(({ response }) => {
 			if (!response) return;
-			dispatch(createSnackbar({ severity: "error", title: "Error", message: response.data.errors[0].message }));
+			dispatch(
+				createSnackbar({ severity: "error", title: "Error", message: response.data.errors[0].message })
+			);
 		})
 		.finally(() => {
 			callback();
@@ -75,10 +91,14 @@ export const logOut = (): Thunk => async (dispatch, getState) => {
 		.logOut()
 		.then((result) => {
 			dispatch(setUser({ logged: false }));
-			dispatch(createSnackbar({ severity: "info", title: "Info", message: "Successfully Logged Out Of Account." }));
+			dispatch(
+				createSnackbar({ severity: "info", title: "Info", message: "Successfully Logged Out Of Account." })
+			);
 		})
 		.catch(({ response }) => {
 			if (!response) return;
-			dispatch(createSnackbar({ severity: "error", title: "Error", message: response.data.errors[0].message }));
+			dispatch(
+				createSnackbar({ severity: "error", title: "Error", message: response.data.errors[0].message })
+			);
 		});
 };

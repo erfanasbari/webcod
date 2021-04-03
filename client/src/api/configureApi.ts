@@ -1,6 +1,6 @@
 import Axios, { AxiosResponse } from "axios";
-import store from "../store/configureStore";
-import { createSnackbar } from "../store/ui";
+import store from "store/configureStore";
+import { createSnackbar } from "store/ui";
 
 const axios = Axios.create({
 	baseURL: "http://localhost/api/",
@@ -13,7 +13,13 @@ axios.interceptors.response.use(
 	},
 	(error) => {
 		if (!error.response) {
-			store.dispatch(createSnackbar({ severity: "error", title: "Network Error", message: "Can not connect to the server." }));
+			store.dispatch(
+				createSnackbar({
+					severity: "error",
+					title: "Network Error",
+					message: "Can not connect to the server.",
+				})
+			);
 		}
 		return Promise.reject(error);
 	}

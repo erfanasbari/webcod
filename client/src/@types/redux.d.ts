@@ -1,6 +1,6 @@
 import { DefaultRootState } from "react-redux";
 import { ThunkAction, Action } from "@reduxjs/toolkit";
-import { RootState } from "../store/reducer";
+import { RootState } from "store/reducer";
 
 declare module "react-redux" {
 	interface DefaultRootState extends RootState {}

@@ -1,6 +1,6 @@
 import { createSlice, Thunk } from "@reduxjs/toolkit";
 import { createSnackbar } from "./ui";
-import serversApi from "../api/servers";
+import serversApi from "api/servers";
 
 interface servers {
 	list: Array<{

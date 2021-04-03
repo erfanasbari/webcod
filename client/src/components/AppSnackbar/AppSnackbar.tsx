@@ -1,6 +1,6 @@
 import { useState, SyntheticEvent } from "react";
 import { useDispatch } from "react-redux";
-import { deleteSnackbar, Snackbar as SnackbarType } from "../../store/ui";
+import { deleteSnackbar, Snackbar as SnackbarType } from "store/ui";
 import { Snackbar } from "@material-ui/core";
 import { AlertTitle, Alert } from "@material-ui/lab";
 
@@ -19,7 +19,12 @@ const AppSnackbar = ({ snackbar }: { snackbar: SnackbarType }) => {
 
 	return (
 		<>
-			<Snackbar anchorOrigin={{ vertical: "top", horizontal: "right" }} autoHideDuration={3000} open={open} onClose={handleClose}>
+			<Snackbar
+				anchorOrigin={{ vertical: "top", horizontal: "right" }}
+				autoHideDuration={3000}
+				open={open}
+				onClose={handleClose}
+			>
 				<Alert severity={severity}>
 					<AlertTitle>{title}</AlertTitle>
 					{message}

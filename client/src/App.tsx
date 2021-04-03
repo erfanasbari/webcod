@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "./store/user";
-import Navigation from "./components/Navigation/Navigation";
-import AppBackground from "./components/AppBackground/AppBackground";
-import AppSnackbar from "./components/AppSnackbar/AppSnackbar";
+import { updateUser } from "store/user";
+import Navigation from "components/Navigation/Navigation";
+import AppBackground from "components/AppBackground/AppBackground";
+import AppSnackbar from "components/AppSnackbar/AppSnackbar";
 import "./App.scss";
 
 // Pages
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import AddServer from "./pages/AddServer/AddServer";
+import Home from "pages/Home/Home";
+import Login from "pages/Login/Login";
+import Register from "pages/Register/Register";
+import AddServer from "pages/AddServer/AddServer";
 
 export default function App() {
 	const dispatch = useDispatch();

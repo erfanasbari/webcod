@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../store/user";
+import { register } from "store/user";
 import { Redirect } from "react-router-dom";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { checkYupError } from "../../include/ui";
+import { checkYupError } from "include/ui";
 import { Button, TextField } from "@material-ui/core";
-import ShowPasswordIcon from "../../components/ShowPasswordIcon/ShowPasswordIcon";
-import { PageTitle } from "../../components/StyledComponents/StyledComponents";
+import ShowPasswordIcon from "components/ShowPasswordIcon/ShowPasswordIcon";
+import { PageTitle } from "components/StyledComponents/StyledComponents";
 import "./Register.scss";
 
 const RegisterSchema = Yup.object().shape({
@@ -24,7 +24,10 @@ const Register = () => {
 	const user = useSelector((state) => state.user);
 	const [showPassword, setShowPassword] = useState(false);
 
-	const handleSubmitRegister = ({ username, email, password }: RegisterFormValues, { setSubmitting }: FormikHelpers<RegisterFormValues>) => {
+	const handleSubmitRegister = (
+		{ username, email, password }: RegisterFormValues,
+		{ setSubmitting }: FormikHelpers<RegisterFormValues>
+	) => {
 		dispatch(
 			register(username, password, email, () => {
 				setSubmitting(false);
@@ -51,8 +54,29 @@ const Register = () => {
 				>
 					{({ isSubmitting, errors }) => (
 						<Form>
-							<Field name="username" type="input" autoFocus={true} variant="outlined" label="Username" className="text-field" color="primary" as={TextField} {...checkYupError(errors.username)} required />
-							<Field name="email" type="email" variant="outlined" label="Email" className="text-field" color="primary" as={TextField} {...checkYupError(errors.email)} required />
+							<Field
+								name="username"
+								type="input"
+								autoFocus={true}
+								variant="outlined"
+								label="Username"
+								className="text-field"
+								color="primary"
+								as={TextField}
+								{...checkYupError(errors.username)}
+								required
+							/>
+							<Field
+								name="email"
+								type="email"
+								variant="outlined"
+								label="Email"
+								className="text-field"
+								color="primary"
+								as={TextField}
+								{...checkYupError(errors.email)}
+								required
+							/>
 							<Field
 								name="password"
 								type={showPassword ? "text" : "password"}
@@ -62,13 +86,32 @@ const Register = () => {
 								color="primary"
 								as={TextField}
 								InputProps={{
-									endAdornment: <ShowPasswordIcon showPassword={showPassword} setShowPassword={setShowPassword} />,
+									endAdornment: (
+										<ShowPasswordIcon showPassword={showPassword} setShowPassword={setShowPassword} />
+									),
 								}}
 								{...checkYupError(errors.password)}
 								required
 							/>
-							<Field name="repeatPassword" type="password" variant="outlined" label="Repeat password" className="text-field" color="primary" as={TextField} {...checkYupError(errors.repeatPassword)} required />
-							<Button disabled={isSubmitting} className="submit" type="submit" variant="contained" size="large" color="secondary">
+							<Field
+								name="repeatPassword"
+								type="password"
+								variant="outlined"
+								label="Repeat password"
+								className="text-field"
+								color="primary"
+								as={TextField}
+								{...checkYupError(errors.repeatPassword)}
+								required
+							/>
+							<Button
+								disabled={isSubmitting}
+								className="submit"
+								type="submit"
+								variant="contained"
+								size="large"
+								color="secondary"
+							>
 								Register
 							</Button>
 						</Form>

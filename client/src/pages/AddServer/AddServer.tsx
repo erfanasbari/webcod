@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Redirect, useHistory, RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createSnackbar } from "../../store/ui";
-import { addServer } from "../../api/servers";
+import { createSnackbar } from "store/ui";
+import { addServer } from "api/servers";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { checkYupError } from "../../include/ui";
+import { checkYupError } from "include/ui";
 import { FormControlLabel, Button, TextField, Checkbox } from "@material-ui/core";
-import ShowPasswordIcon from "../../components/ShowPasswordIcon/ShowPasswordIcon";
-import { PageTitle } from "../../components/StyledComponents/StyledComponents";
+import ShowPasswordIcon from "components/ShowPasswordIcon/ShowPasswordIcon";
+import { PageTitle } from "components/StyledComponents/StyledComponents";
 import GameServerSelect from "./components/GameServerSelect";
 import "./AddServer.scss";
 
