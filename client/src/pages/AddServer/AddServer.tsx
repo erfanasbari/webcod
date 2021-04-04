@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Redirect, useHistory, RouteComponentProps } from "react-router-dom";
+import { useState } from "react";
+import { Redirect, RouteComponentProps } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createSnackbar } from "store/ui";
 import { addServer } from "api/servers";

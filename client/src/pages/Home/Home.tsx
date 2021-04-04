@@ -31,7 +31,7 @@ export default function Home() {
 						{servers.list.map((server) => (
 							<tr className="server-item">
 								<td className="server-name">
-									<Link to={`/servers/${server.info.slug}`}>BaxIrani[SD]</Link>
+									<Link to={`/servers/${server.info.slug}`}>{server.info.name}</Link>
 								</td>
 								<td className="player-count">
 									<span className="progress">
