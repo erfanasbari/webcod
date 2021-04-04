@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { RequestHasUser } from "@helpers/auth";
 
-export function checkIsAuthenticated(req: Request, res: Response, next: NextFunction) {
+export const checkIsAuthenticated = (req: Request, res: Response, next: NextFunction) => {
 	if (req.isAuthenticated()) {
 		if (!req.user) req.logOut();
 		else return next();
@@ -9,16 +9,16 @@ export function checkIsAuthenticated(req: Request, res: Response, next: NextFunc
 	res.status(400).json({
 		errors: [{ message: "no user logged in" }],
 	});
-}
+};
 
-export function checkIsNotAuthenticated(req: Request, res: Response, next: NextFunction) {
+export const checkIsNotAuthenticated = (req: Request, res: Response, next: NextFunction) => {
 	if (!req.isAuthenticated()) return next();
 	res.status(400).json({
 		errors: [{ message: "already logged in" }],
 	});
-}
+};
 
-export function checkUserRole(role: number) {
+export const checkUserRole = (role: number) => {
 	return async (req: Request, res: Response, next: NextFunction) => {
 		RequestHasUser(req);
 		if (req.user.role >= role) return next();
@@ -26,4 +26,4 @@ export function checkUserRole(role: number) {
 			errors: [{ message: "insufficient role" }],
 		});
 	};
-}
+};

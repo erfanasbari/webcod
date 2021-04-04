@@ -2,10 +2,10 @@ const dotenv = require("dotenv");
 const dotenvExpand = require("dotenv-expand");
 const path = require("path");
 
-function checkEnvResult(configOutput) {
+const checkEnvResult = (configOutput) => {
 	const expandOutput = dotenvExpand(configOutput);
 	if (expandOutput.error) throw expandOutput.error;
-}
+};
 
 checkEnvResult(dotenv.config({ path: path.resolve(__dirname, "../../.env") }));
 

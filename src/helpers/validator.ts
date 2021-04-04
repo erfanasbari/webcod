@@ -2,14 +2,14 @@ import { Request, Response, NextFunction } from "express";
 import { validationResult, ValidationChain } from "express-validator";
 import config from "@config/configuration";
 
-export function isValidAppId(appId: string) {
+export const isValidAppId = (appId: string) => {
 	for (const [key, value] of Object.entries(config.appIds)) {
 		if (appId === value) return true;
 	}
 	return false;
-}
+};
 
-export function validateSequential(validations: ValidationChain[]) {
+export const validateSequential = (validations: ValidationChain[]) => {
 	return async (req: Request, res: Response, next: NextFunction) => {
 		for (let validation of validations) {
 			const result = await validation.run(req);
@@ -19,9 +19,9 @@ export function validateSequential(validations: ValidationChain[]) {
 		}
 		next();
 	};
-}
+};
 
-export function validateParallel(validations: ValidationChain[]) {
+export const validateParallel = (validations: ValidationChain[]) => {
 	return async (req: Request, res: Response, next: NextFunction) => {
 		await Promise.all(validations.map((validation) => validation.run(req)));
 
@@ -32,4 +32,4 @@ export function validateParallel(validations: ValidationChain[]) {
 
 		res.status(400).json({ errors: errors.array() });
 	};
-}
+};

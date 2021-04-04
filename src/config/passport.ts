@@ -3,7 +3,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcrypt";
 import prisma from "@db/client";
 
-export default function configurePassport(passport: PassportStatic) {
+const configurePassport = (passport: PassportStatic) => {
 	passport.use(
 		new LocalStrategy(async (username, password, done) => {
 			const user = await prisma.users.findUnique({ where: { username } });
@@ -22,4 +22,6 @@ export default function configurePassport(passport: PassportStatic) {
 		const user = await prisma.users.findUnique({ where: { id } });
 		if (user) done(null, user);
 	});
-}
+};
+
+export default configurePassport;

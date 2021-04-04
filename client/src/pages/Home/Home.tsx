@@ -6,7 +6,7 @@ import { getServers } from "store/servers";
 import { PageTitle } from "components/StyledComponents/StyledComponents";
 import "./Home.scss";
 
-export default function Home() {
+const Home = () => {
 	const dispatch = useDispatch();
 	const servers = useSelector((state) => state.servers);
 
@@ -55,4 +55,6 @@ export default function Home() {
 			</section>
 		</>
 	);
-}
+};
+
+export default Home;

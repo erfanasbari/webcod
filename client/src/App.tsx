@@ -13,7 +13,7 @@ import Login from "pages/Login/Login";
 import Register from "pages/Register/Register";
 import AddServer from "pages/AddServer/AddServer";
 
-export default function App() {
+const App = () => {
 	const dispatch = useDispatch();
 	const snackBars = useSelector((state) => state.ui.snackbars);
 
@@ -49,4 +49,6 @@ export default function App() {
 			</div>
 		</>
 	);
-}
+};
+
+export default App;

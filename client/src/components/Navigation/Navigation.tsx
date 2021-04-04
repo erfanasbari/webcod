@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "store/user";
 import "./Navigation.scss";
 
-export default function Navigation() {
+const Navigation = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
 
@@ -77,4 +77,6 @@ export default function Navigation() {
 			</section>
 		</>
 	);
-}
+};
+
+export default Navigation;

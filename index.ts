@@ -11,7 +11,7 @@ import configurePassport from "@config/passport";
 // Routes
 import apiRoute from "@routes/api/api";
 
-function startServer() {
+const startServer = () => {
 	// ======================= Database ======================= //
 
 	// ======================= Express ======================= //
@@ -51,6 +51,6 @@ function startServer() {
 	app.listen(config.address.port, () => {
 		console.log(`Webcod server listening on: ${config.address.url}`);
 	});
-}
+};
 
 startServer();
