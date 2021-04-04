@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "cross-env-shell NODE_ENV=development \"sequelize db:migrate && prisma generate && nodemon ./index.ts\"",
-		"start": "cross-env-shell NODE_ENV=production \"sequelize db:migrate && prisma generate && ts-node ./index.ts\"",
+		"start": "cross-env-shell NODE_ENV=production \"sequelize db:migrate && prisma generate && ts-node -r tsconfig-paths/register ./index.ts\"",
 		"prisma-generate": "prisma generate",
 		"prisma-introspect": "dotenv -e .env -e .env.development -e ./src/prisma/prisma.env -- prisma introspect",
 		"prisma-studio": "dotenv -e .env -e .env.development -e ./src/prisma/prisma.env -- prisma studio",
@@ -58,17 +58,6 @@
 		"schema": "./src/prisma/schema.prisma"
 	},
 	"nodemonConfig": {
-		"ignore": [
-			"**/*.test.ts",
-			"**/*.spec.ts",
-			".git",
-			"node_modules"
-		],
-		"watch": [
-			"index.ts",
-			"src"
-		],
-		"exec": "node -r tsconfig-paths/register -r ts-node/register ./index.ts",
-		"ext": "ts, js"
+		"exec": "ts-node -r tsconfig-paths/register"
 	}
 }
