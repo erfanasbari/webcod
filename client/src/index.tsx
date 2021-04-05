@@ -6,6 +6,10 @@ import { BrowserRouter } from "react-router-dom";
 import generalConfig from "./config/general";
 import App from "./App";
 
+// css
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 ReactDOM.render(
 	<React.StrictMode>
 		<ReactReduxProvider store={store}>

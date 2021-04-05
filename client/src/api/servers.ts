@@ -6,6 +6,10 @@ export const getServers = async (page: number = 1) => {
 	});
 };
 
+export const getServer = async (slug: string) => {
+	return axios.get(`/servers/${slug}`);
+};
+
 export const addServer = async (values: AddServerFormValues) => {
 	return axios.post("/servers/add", {
 		appId: values.appId,
@@ -23,6 +27,7 @@ export const addServer = async (values: AddServerFormValues) => {
 
 const exports = {
 	getServers,
+	getServer,
 	addServer,
 };
 

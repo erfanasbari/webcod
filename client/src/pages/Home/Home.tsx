@@ -29,7 +29,7 @@ const Home = () => {
 					</thead>
 					<tbody>
 						{servers.list.map((server) => (
-							<tr className="server-item">
+							<tr className="server-item" key={server.info.slug}>
 								<td className="server-name">
 									<Link to={`/servers/${server.info.slug}`}>{server.info.name}</Link>
 								</td>

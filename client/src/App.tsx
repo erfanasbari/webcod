@@ -11,6 +11,7 @@ import "./App.scss";
 import Home from "pages/Home/Home";
 import Login from "pages/Login/Login";
 import Register from "pages/Register/Register";
+import Server from "pages/Server/Server";
 import AddServer from "pages/AddServer/AddServer";
 
 const App = () => {
@@ -34,9 +35,17 @@ const App = () => {
 							<Route path="/register" exact component={Register} />
 							<Route
 								path="/servers"
-								render={(props: any) => (
+								render={(props) => (
 									<Switch>
 										<Route path={`${props.match.path}/add`} exact component={AddServer} />
+										<Route
+											path={`${props.match.path}/:serverSlug`}
+											render={(props) => (
+												<Switch>
+													<Route path={`${props.match.path}/`} exact component={Server} />
+												</Switch>
+											)}
+										/>
 									</Switch>
 								)}
 							/>
