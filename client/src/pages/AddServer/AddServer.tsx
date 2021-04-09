@@ -6,8 +6,8 @@ import { addServer } from "api/servers";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { checkYupError } from "include/ui";
-import { FormControlLabel, Button, TextField, Checkbox } from "@material-ui/core";
-import ShowPasswordIcon from "components/ShowPasswordIcon/ShowPasswordIcon";
+import { FormControlLabel, Button, Checkbox } from "@material-ui/core";
+import { TextInput } from "components/material-ui";
 import { PageTitle } from "components/StyledComponents/StyledComponents";
 import GameServerSelect from "./components/GameServerSelect";
 import "./AddServer.scss";
@@ -28,8 +28,6 @@ const FormSchema = Yup.object().shape({
 const AddServer = ({ history }: RouteComponentProps) => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
-	const [showRconPassword, setShowRconPassword] = useState(false);
-	const [showDbPassword, setShowDbPassword] = useState(false);
 	const [hasDb, setHasDb] = useState(false);
 
 	const onFormSubmit = (
@@ -67,8 +65,6 @@ const AddServer = ({ history }: RouteComponentProps) => {
 							dbPort: 3306,
 							dbHost: "localhost",
 							dbUser: "root",
-							dbPassword: "",
-							dbName: "",
 						} as AddServerFormValues
 					}
 					onSubmit={onFormSubmit}
@@ -90,49 +86,26 @@ const AddServer = ({ history }: RouteComponentProps) => {
 							<Field
 								name="name"
 								type="text"
-								variant="outlined"
 								label="Name"
-								className="input"
-								color="primary"
-								as={TextField}
+								as={TextInput}
 								{...checkYupError(errors.name)}
 								required
 							/>
-							<Field
-								name="host"
-								type="text"
-								variant="outlined"
-								label="Host"
-								className="input"
-								color="primary"
-								as={TextField}
-								{...checkYupError(errors.host)}
-								required
-							/>
+							<Field name="host" label="Host" as={TextInput} {...checkYupError(errors.host)} required />
 							<Field
 								name="port"
 								type="number"
-								variant="outlined"
 								label="Port"
-								className="input"
-								color="primary"
-								as={TextField}
+								as={TextInput}
 								{...checkYupError(errors.port)}
 								required
 							/>
 							<Field
 								name="rconPassword"
-								type={showRconPassword ? "text" : "password"}
-								variant="outlined"
+								type="password"
 								label="Rcon Password"
-								className="input"
-								color="primary"
-								InputProps={{
-									endAdornment: (
-										<ShowPasswordIcon showPassword={showRconPassword} setShowPassword={setShowRconPassword} />
-									),
-								}}
-								as={TextField}
+								showPasswordIcon={true}
+								as={TextInput}
 								{...checkYupError(errors.rconPassword)}
 								required
 							/>
@@ -144,61 +117,40 @@ const AddServer = ({ history }: RouteComponentProps) => {
 								<>
 									<Field
 										name="dbHost"
-										type="text"
-										variant="outlined"
 										label="Database host"
-										className="input"
-										color="primary"
-										as={TextField}
+										as={TextInput}
 										{...checkYupError(errors.dbHost)}
 										required
 									/>
 									<Field
 										name="dbPort"
-										type="text"
-										variant="outlined"
+										type="number"
 										label="Database port"
-										className="input"
-										color="primary"
-										as={TextField}
+										as={TextInput}
 										{...checkYupError(errors.dbPort)}
 										required
 									/>
 									<Field
 										name="dbUser"
 										type="text"
-										variant="outlined"
 										label="Database username"
-										className="input"
-										color="primary"
-										as={TextField}
+										as={TextInput}
 										{...checkYupError(errors.dbUser)}
 										required
 									/>
 									<Field
 										name="dbPassword"
-										type={showDbPassword ? "text" : "password"}
-										variant="outlined"
+										type="password"
 										label="Database password"
-										className="input"
-										color="primary"
-										InputProps={{
-											endAdornment: (
-												<ShowPasswordIcon showPassword={showDbPassword} setShowPassword={setShowDbPassword} />
-											),
-										}}
-										as={TextField}
+										showPasswordIcon={true}
+										as={TextInput}
 										{...checkYupError(errors.dbPassword)}
 									/>
 
 									<Field
 										name="dbName"
-										type="text"
-										variant="outlined"
 										label="Database name"
-										className="input"
-										color="primary"
-										as={TextField}
+										as={TextInput}
 										{...checkYupError(errors.dbName)}
 										required
 									/>

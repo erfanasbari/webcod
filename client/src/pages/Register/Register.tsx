@@ -1,12 +1,12 @@
-import { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "store/user";
 import { Redirect } from "react-router-dom";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { checkYupError } from "include/ui";
-import { Button, TextField } from "@material-ui/core";
-import ShowPasswordIcon from "components/ShowPasswordIcon/ShowPasswordIcon";
+import { Button } from "@material-ui/core";
+import { TextInput } from "components/material-ui";
 import { PageTitle } from "components/StyledComponents/StyledComponents";
 import "./Register.scss";
 
@@ -22,7 +22,6 @@ const RegisterSchema = Yup.object().shape({
 const Register = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
-	const [showPassword, setShowPassword] = useState(false);
 
 	const handleSubmitRegister = (
 		{ username, email, password }: RegisterFormValues,
@@ -41,14 +40,7 @@ const Register = () => {
 			<PageTitle>Register</PageTitle>
 			<section className="register">
 				<Formik
-					initialValues={
-						{
-							username: "",
-							email: "",
-							password: "",
-							repeatPassword: "",
-						} as RegisterFormValues
-					}
+					initialValues={{} as RegisterFormValues}
 					onSubmit={handleSubmitRegister}
 					validationSchema={RegisterSchema}
 				>
@@ -56,51 +48,36 @@ const Register = () => {
 						<Form>
 							<Field
 								name="username"
-								type="input"
 								autoFocus={true}
-								variant="outlined"
 								label="Username"
-								className="text-field"
-								color="primary"
-								as={TextField}
+								as={TextInput}
 								{...checkYupError(errors.username)}
 								required
 							/>
 							<Field
 								name="email"
 								type="email"
-								variant="outlined"
 								label="Email"
-								className="text-field"
 								color="primary"
-								as={TextField}
+								as={TextInput}
 								{...checkYupError(errors.email)}
 								required
 							/>
 							<Field
 								name="password"
-								type={showPassword ? "text" : "password"}
-								variant="outlined"
+								showPasswordIcon={true}
 								label="Password"
-								className="text-field"
 								color="primary"
-								as={TextField}
-								InputProps={{
-									endAdornment: (
-										<ShowPasswordIcon showPassword={showPassword} setShowPassword={setShowPassword} />
-									),
-								}}
+								as={TextInput}
 								{...checkYupError(errors.password)}
 								required
 							/>
 							<Field
 								name="repeatPassword"
 								type="password"
-								variant="outlined"
 								label="Repeat password"
-								className="text-field"
 								color="primary"
-								as={TextField}
+								as={TextInput}
 								{...checkYupError(errors.repeatPassword)}
 								required
 							/>
