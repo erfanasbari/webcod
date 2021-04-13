@@ -2,7 +2,6 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "store/user";
-import "./Navigation.scss";
 
 const Navigation = () => {
 	const dispatch = useDispatch();

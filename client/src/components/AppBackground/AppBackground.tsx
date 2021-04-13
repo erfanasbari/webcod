@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getContextModuleSrc } from "include/functions";
 import Slider from "react-slick";
-import "./AppBackground.scss";
 
 function importAllAppBackgrounds() {
 	const context = require.context("assets/images/app-background/", false, /\.(png|jpe?g|svg)$/);

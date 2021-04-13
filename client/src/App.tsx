@@ -5,7 +5,6 @@ import { updateUser } from "store/user";
 import Navigation from "components/Navigation/Navigation";
 import AppBackground from "components/AppBackground/AppBackground";
 import AppSnackbar from "components/AppSnackbar/AppSnackbar";
-import "./App.scss";
 
 // Pages
 import Home from "pages/Home/Home";

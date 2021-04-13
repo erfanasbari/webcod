@@ -5,10 +5,9 @@ import { logIn } from "store/user";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { checkYupError } from "include/ui";
-import { Button, TextField } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { TextInput } from "components/material-ui";
 import { PageTitle } from "components/StyledComponents/StyledComponents";
-import "./Login.scss";
 
 const SignInSchema = Yup.object().shape({
 	username: Yup.string().min(3, "At least 3 characters").max(32, "At most 32 characters"),

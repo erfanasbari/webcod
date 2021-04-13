@@ -8,7 +8,6 @@ import { checkYupError } from "include/ui";
 import { Button } from "@material-ui/core";
 import { TextInput } from "components/material-ui";
 import { PageTitle } from "components/StyledComponents/StyledComponents";
-import "./Register.scss";
 
 const RegisterSchema = Yup.object().shape({
 	username: Yup.string().min(3, "At least 3 characters").max(32, "At most 32 characters"),

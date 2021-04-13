@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import generalConfig from "config/general";
 import { getServers } from "store/servers";
 import { PageTitle } from "components/StyledComponents/StyledComponents";
-import "./Home.scss";
 
 const Home = () => {
 	const dispatch = useDispatch();

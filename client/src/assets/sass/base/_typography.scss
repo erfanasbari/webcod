@@ -1,0 +1,12 @@
+body {
+  font-size: var(--fs-300);
+  font-family: Roboto, sans-serif;
+  color: var(--clr-neutral-900);
+  letter-spacing: -0.5px;
+}
+
+p:not([class]),
+ul:not([class]),
+li:not([class]) {
+  max-width: 60ch;
+}

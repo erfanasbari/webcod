@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCurrentServer, getCurrentServer } from "store/servers";
 import moment from "moment";
 import { PageTitle } from "components/StyledComponents/StyledComponents";
-import "./Server.scss";
 
 interface PlayerInfo {
 	index: number;

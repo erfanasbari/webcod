@@ -1,0 +1,27 @@
+.server-players {
+  margin-top: 50px;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+
+    tbody tr {
+      font-size: 1rem;
+      width: 100%;
+      line-height: 3;
+      color: #474747;
+      position: relative;
+      border-bottom: 1px dotted #898989;
+      animation: fade-up 0.5s;
+    }
+    .name,
+    tr {
+      text-align: left;
+    }
+    .score,
+    .timeConected {
+      width: 70px;
+      text-align: center;
+    }
+  }
+}

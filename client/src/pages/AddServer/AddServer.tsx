@@ -10,7 +10,6 @@ import { FormControlLabel, Button, Checkbox } from "@material-ui/core";
 import { TextInput } from "components/material-ui";
 import { PageTitle } from "components/StyledComponents/StyledComponents";
 import GameServerSelect from "./components/GameServerSelect";
-import "./AddServer.scss";
 
 const FormSchema = Yup.object().shape({
 	appId: Yup.string(),
