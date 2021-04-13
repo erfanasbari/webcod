@@ -12,12 +12,12 @@ import "slick-carousel/slick/slick-theme.css";
 import "assets/sass/style.scss";
 
 ReactDOM.render(
-	<React.StrictMode>
-		<ReactReduxProvider store={store}>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</ReactReduxProvider>
-	</React.StrictMode>,
-	document.getElementById(generalConfig.app.rootElement.id)
+  <React.StrictMode>
+    <ReactReduxProvider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ReactReduxProvider>
+  </React.StrictMode>,
+  document.getElementById(generalConfig.app.rootElement.id)
 );
