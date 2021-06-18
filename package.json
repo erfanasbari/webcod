@@ -12,6 +12,7 @@
 	},
 	"dependencies": {
 		"@prisma/client": "^2.20.1",
+		"@quixo3/prisma-session-store": "^3.0.1",
 		"bcrypt": "^5.0.1",
 		"cheerio": "^1.0.0-rc.5",
 		"cookie-parser": "~1.4.4",
