@@ -1,4 +1,6 @@
 import express from "express";
+import https from "https";
+import http from "http";
 import path from "path";
 import fs from "fs";
 import cors from "cors";
@@ -23,7 +25,7 @@ const startServer = () => {
   if (process.env.NODE_ENV === "development") {
     app.use(
       cors({
-        origin: "http://localhost:3000",
+        origin: ["http://localhost:3000", "https://localhost:3000"],
         credentials: true,
       })
     );
@@ -64,9 +66,29 @@ const startServer = () => {
   app.get("*", (req, res) => res.send(indexHtml)); // Send modified index on 404 so react-router can handle that
 
   // ====== Listning for requests ====== //
-  app.listen(config.address.port, () => {
-    console.log(`Webcod server listening on: ${config.address.url}`);
-  });
+  if (config.address.SSL) {
+    const options: https.ServerOptions = {
+      key: fs.readFileSync(path.join(__dirname, ".ssl", "key.pem")),
+      cert: fs.readFileSync(path.join(__dirname, ".ssl", "cert.pem")),
+    };
+    const httpsServer = https.createServer(options, app);
+    httpsServer.listen(config.address.httpsPort, () => {
+      console.log(`Secure server listening on ${config.address.url}`);
+    });
+
+    // Create an http redirect
+    const httpApp = express();
+    httpApp.use("*", (req, res) => {
+      res.redirect(config.address.url + req.originalUrl);
+    });
+    const httpServer = http.createServer(httpApp);
+    httpServer.listen(config.address.port);
+  } else {
+    // Create just http server if SSL is set to false
+    app.listen(config.address.port, () => {
+      console.log(`Server listening on: ${config.address.url}`);
+    });
+  }
 };
 
 startServer();
