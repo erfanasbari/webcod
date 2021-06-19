@@ -35,8 +35,8 @@ const AddServer = ({ history }: RouteComponentProps) => {
         dispatch(createSnackbar({ severity: "success", title: "Success", message: "Server added successfully." }));
         history.push("/");
       })
-      .catch(({ response }) => {
-        if (!response) return;
+      .catch(({ response, handled }) => {
+        if (handled) return;
         dispatch(createSnackbar({ severity: "error", title: "Error", message: response.data.errors[0].message }));
       })
       .finally(() => {

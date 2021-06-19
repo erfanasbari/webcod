@@ -15,6 +15,8 @@ axios.interceptors.response.use(
     return result;
   },
   (error) => {
+    // Handle network errors
+    error.handled = true;
     if (!error.response) {
       store.dispatch(
         createSnackbar({
@@ -23,6 +25,16 @@ axios.interceptors.response.use(
           message: "Can not connect to the server.",
         })
       );
+    } else if (!error.response.data.errors) {
+      store.dispatch(
+        createSnackbar({
+          severity: "error",
+          title: "Server Error",
+          message: "Can not communicate with the server.",
+        })
+      );
+    } else {
+      error.handled = false;
     }
     return Promise.reject(error);
   }
