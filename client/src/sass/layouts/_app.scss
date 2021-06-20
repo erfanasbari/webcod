@@ -1,22 +1,22 @@
 .app {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  grid-template-rows: 1fr;
-  min-width: 1000px;
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	grid-template-rows: 1fr;
+	min-width: 1000px;
 }
 
 .app-page {
-  padding: 20px;
-  height: 100vh;
-  overflow-y: scroll;
+	padding: 20px;
+	height: 100vh;
+	overflow-y: scroll;
 
-  .main-content {
-    width: 100%;
-    min-height: 100%;
-    padding: 20px;
-    overflow: hidden;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    // backdrop-filter: blur(10px);
-  }
+	.main-content {
+		width: 100%;
+		min-height: 100%;
+		padding: 20px;
+		overflow: hidden;
+		background-color: rgba(255, 255, 255, 0.9);
+		border-radius: 10px;
+		// backdrop-filter: blur(10px);
+	}
 }

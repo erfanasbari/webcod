@@ -1,0 +1,25 @@
+{
+	"folders": [
+		{
+			"path": "..",
+			"name": "backend"
+		},
+		{
+			"path": "..\\client"
+		}
+	],
+	"settings": {
+		"editor.formatOnSave": true,
+		"files.insertFinalNewline": true,
+		"editor.tabSize": 2,
+		"[prisma]": {
+			"editor.defaultFormatter": "Prisma.prisma"
+		},
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"files.exclude": {
+			"client": true,
+			".ssl": true,
+			"**/node_modules": true
+		}
+	}
+}

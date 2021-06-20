@@ -2,7 +2,13 @@ import { Dispatch, SetStateAction } from "react";
 import { InputAdornment, IconButton } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-const ShowPasswordIcon = ({ showPassword, setShowPassword }: { showPassword: boolean; setShowPassword: Dispatch<SetStateAction<boolean>> }) => {
+const ShowPasswordIcon = ({
+	showPassword,
+	setShowPassword,
+}: {
+	showPassword: boolean;
+	setShowPassword: Dispatch<SetStateAction<boolean>>;
+}) => {
 	const handleClick = () => {
 		setShowPassword(!showPassword);
 	};

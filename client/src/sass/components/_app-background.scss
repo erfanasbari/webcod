@@ -1,16 +1,16 @@
 .app-background-slider {
-  position: fixed !important;
-  z-index: -1;
-  width: 100%;
-  height: 100%;
+	position: fixed !important;
+	z-index: -1;
+	width: 100%;
+	height: 100%;
 
-  .item {
-    background-color: cyan;
+	.item {
+		background-color: cyan;
 
-    img {
-      width: 100%;
-      height: 100vh;
-      object-fit: cover;
-    }
-  }
+		img {
+			width: 100%;
+			height: 100vh;
+			object-fit: cover;
+		}
+	}
 }

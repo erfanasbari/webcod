@@ -1,31 +1,23 @@
 @use 'breakpoints' as *;
 
 @mixin mq($key) {
-  $size: map-get($breakpoints, $key);
+	$size: map-get($breakpoints, $key);
 
-  @media only screen and (min-width: $size) {
-    @content;
-  }
+	@media only screen and (min-width: $size) {
+		@content;
+	}
 }
 
-@mixin pseudo(
-  $loc: before,
-  $content: "",
-  $pos: absolute,
-  $top: 0,
-  $bottom: 0,
-  $left: 0,
-  $right: 0
-) {
-  position: relative;
+@mixin pseudo($loc: before, $content: "", $pos: absolute, $top: 0, $bottom: 0, $left: 0, $right: 0) {
+	position: relative;
 
-  &::#{$loc} {
-    content: $content;
-    position: $pos;
-    top: $top;
-    bottom: $bottom;
-    left: $left;
-    right: $right;
-    @content;
-  }
+	&::#{$loc} {
+		content: $content;
+		position: $pos;
+		top: $top;
+		bottom: $bottom;
+		left: $left;
+		right: $right;
+		@content;
+	}
 }

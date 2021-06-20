@@ -13,12 +13,12 @@ router.get("/", (req, res) => {
 });
 
 router.get(
-  "/errorHandlingTest",
-  checkIsAuthenticated,
-  checkUserRole(100),
-  catchAsync(async (req, res) => {
-    throw new AppError("Error Handling Test");
-  })
+	"/errorHandlingTest",
+	checkIsAuthenticated,
+	checkUserRole(100),
+	catchAsync(async (req, res) => {
+		throw new AppError("Error Handling Test");
+	})
 );
 
 router.use("/auth", authRoute);
