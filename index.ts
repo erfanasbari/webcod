@@ -12,6 +12,7 @@ import cheerio from "cheerio";
 import config from "@config/configuration";
 import prisma from "@db/client";
 import configurePassport from "@config/passport";
+import { errorHandler } from "@middlewares/errorHandling";
 
 // Routes
 import apiRoute from "@routes/api/api";
@@ -64,6 +65,9 @@ const startServer = () => {
   app.get(["/", "/index.html"], (req, res) => res.send(indexHtml)); // Send modified index instead of index.html
   app.use(express.static(path.join(__dirname, "/client/build"))); // Serve React static files
   app.get("*", (req, res) => res.send(indexHtml)); // Send modified index on 404 so react-router can handle that
+
+  // ============= Error Handling ============= //
+  app.use(errorHandler);
 
   // ====== Listning for requests ====== //
   if (config.address.SSL) {
