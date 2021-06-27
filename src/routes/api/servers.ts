@@ -4,7 +4,7 @@ import { body, query } from "express-validator";
 import { servers, server_cache, server_options } from "@prisma/client";
 import slugify from "slugify";
 import mysql from "mysql2";
-import serverRoute from "./server";
+import serverRoute from "./server/server";
 import prisma from "@db/client";
 import { validateSequential, isValidAppId } from "@helpers/validator";
 import { checkIsAuthenticated, checkUserRole } from "@middlewares/auth";

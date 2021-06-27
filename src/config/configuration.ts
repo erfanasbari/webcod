@@ -1,5 +1,6 @@
 import "./dotenv";
 import { isTrueSet } from "@helpers/functions";
+import path from "path";
 
 const config = {
 	db: {
@@ -28,6 +29,12 @@ const config = {
 	},
 	appIds: {
 		CoD4x: "CoD4x",
+	},
+	uploadsDir: {
+		main: path.join(process.cwd(), "uploads/"),
+		get plugins() {
+			return this.main + "plugins/";
+		},
 	},
 };
 

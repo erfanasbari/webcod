@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { RequestHandler } from "express";
 import { validationResult, ValidationChain } from "express-validator";
 import config from "@config/configuration";
 
@@ -10,26 +10,22 @@ export const isValidAppId = (appId: string) => {
 };
 
 export const validateSequential = (validations: ValidationChain[]) => {
-	return async (req: Request, res: Response, next: NextFunction) => {
+	return (async (req, res, next) => {
 		for (let validation of validations) {
 			const result = await validation.run(req);
-			if (!result.isEmpty()) {
-				return res.status(400).json({ errors: result.array() });
-			}
+			if (!result.isEmpty()) return res.status(400).json({ errors: result.array() });
 		}
-		next();
-	};
+		await next();
+	}) as RequestHandler;
 };
 
 export const validateParallel = (validations: ValidationChain[]) => {
-	return async (req: Request, res: Response, next: NextFunction) => {
+	return (async (req, res, next) => {
 		await Promise.all(validations.map((validation) => validation.run(req)));
 
 		const errors = validationResult(req);
-		if (errors.isEmpty()) {
-			return next();
-		}
+		if (errors.isEmpty()) return await next();
 
 		res.status(400).json({ errors: errors.array() });
-	};
+	}) as RequestHandler;
 };

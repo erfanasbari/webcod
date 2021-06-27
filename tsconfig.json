@@ -20,7 +20,7 @@
 		"sourceMap": true
 	},
 	"include": ["."],
-	"exclude": ["client"],
+	"exclude": ["node_modules", "client"],
 	"ts-node": {
 		"files": true
 	}

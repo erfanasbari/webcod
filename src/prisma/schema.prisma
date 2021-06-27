@@ -7,13 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Session {
-  id        String   @id @db.VarChar(255)
-  sid       String   @unique @db.VarChar(255)
-  data      String
-  expiresAt DateTime
-}
-
 model servers {
   id            Int           @id @default(autoincrement())
   appId         servers_appId
@@ -54,6 +47,23 @@ model users {
   password String @db.VarChar(128)
   email    String @db.VarChar(255)
   role     Int    @default(0)
+}
+
+model nehoscreenshotuploader_screenshots {
+  id              Int      @id @default(autoincrement())
+  server_id       Int
+  time_submitted  DateTime @db.DateTime(0)
+  player_guid     String   @db.VarChar(19)
+  player_name     String   @db.VarChar(32)
+  map_name        String   @db.VarChar(30)
+  screenshot_name String   @db.VarChar(128)
+}
+
+model Session {
+  id        String   @id @db.VarChar(255)
+  sid       String   @unique @db.VarChar(255)
+  data      String   @db.Text
+  expiresAt DateTime @db.DateTime(0)
 }
 
 enum servers_appId {

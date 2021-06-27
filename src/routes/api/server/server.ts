@@ -4,9 +4,13 @@ import { checkIsAuthenticated, checkUserRole } from "@middlewares/auth";
 import { findServerIdFromSlug } from "@middlewares/server";
 import serverQuery from "@helpers/gemeServer/query";
 
+import nehoscreenshotuploader from "./plugins/nehoscreenshotuploader";
+
 let router = express.Router({ mergeParams: true });
 
 router.use("/", findServerIdFromSlug);
+
+router.use("/nehoscreenshotuploader", nehoscreenshotuploader);
 
 router.get("/", async (req, res) => {
 	const serverOptions = await prisma.server_options.findUnique({

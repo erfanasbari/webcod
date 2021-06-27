@@ -1,6 +1,9 @@
 # IDE
 .vscode/sftp.json
 
+# Practice code before implementing
+practice
+
 # Logs
 logs
 *.log
@@ -41,3 +44,6 @@ npm-debug.log
 .env
 .env.development
 .env.production
+
+# Files inside uploads directory
+uploads/**/*.*

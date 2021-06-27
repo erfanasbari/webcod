@@ -2,7 +2,7 @@ import express from "express";
 import authRoute from "./auth";
 import { AppError } from "@helpers/errorHandling";
 import { checkIsAuthenticated, checkUserRole } from "@middlewares/auth";
-import serversRoute from "./servers/servers";
+import serversRoute from "./servers";
 
 let router = express.Router();
 
