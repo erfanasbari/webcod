@@ -23,6 +23,9 @@ const config = {
 	session: {
 		secret: process.env.SESSION_SECRET || "Test Secret",
 	},
+	log: {
+		level: process.env.LOG_LEVEL || "info",
+	},
 	appIds: {
 		CoD4x: "CoD4x",
 	},

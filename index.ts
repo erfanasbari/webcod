@@ -13,6 +13,7 @@ import cheerio from "cheerio";
 import config from "@config/configuration";
 import prisma from "@db/client";
 import configurePassport from "@config/passport";
+import { logger, expressLogger } from "@config/pino";
 import { errorHandler } from "@middlewares/errorHandling";
 
 // Routes
@@ -48,6 +49,9 @@ const startServer = () => {
 		})
 	);
 
+	// ============= logger ============= //
+	app.use(expressLogger);
+
 	// ============= passport ============= //
 	app.use(passport.initialize());
 	app.use(passport.session());
@@ -78,7 +82,7 @@ const startServer = () => {
 		};
 		const httpsServer = https.createServer(options, app);
 		httpsServer.listen(config.address.httpsPort, () => {
-			console.log(`Secure server listening on ${config.address.url}`);
+			logger.info(`Secure server listening on ${config.address.url}`);
 		});
 
 		// Create an http redirect
@@ -91,7 +95,7 @@ const startServer = () => {
 	} else {
 		// Create just http server if SSL is set to false
 		app.listen(config.address.port, () => {
-			console.log(`Server listening on: ${config.address.url}`);
+			logger.info(`Server listening on: ${config.address.url}`);
 		});
 	}
 };
