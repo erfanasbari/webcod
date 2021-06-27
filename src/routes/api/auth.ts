@@ -3,7 +3,6 @@ import passport from "passport";
 import bcrypt from "bcrypt";
 import { body } from "express-validator";
 import { validateSequential } from "@helpers/validator";
-import { catchAsync } from "@helpers/errorHandling";
 import prisma from "@db/client";
 
 import { RequestHasUser } from "@helpers/auth";
@@ -19,7 +18,7 @@ router.post(
 		body("email").isEmail().normalizeEmail(),
 		body("password").isLength({ min: 6 }),
 	]),
-	catchAsync(async (req, res) => {
+	async (req, res) => {
 		if (await prisma.users.findUnique({ where: { username: req.body.username } }))
 			return res.status(401).json({ errors: [{ message: "This username already exists." }] });
 		const hash = await bcrypt.hash(req.body.password, 10);
@@ -33,7 +32,7 @@ router.post(
 		req.logIn(user, () => {
 			res.json({ message: "success" });
 		});
-	})
+	}
 );
 
 router.post(
@@ -43,7 +42,7 @@ router.post(
 		body("username").isString().isLength({ min: 3, max: 32 }),
 		body("password").isLength({ min: 6 }),
 	]),
-	catchAsync(async (req, res, next) => {
+	async (req, res, next) => {
 		passport.authenticate("local", (error, user, info) => {
 			if (error) return next(error);
 			if (!user) res.status(401).json({ errors: [info] });
@@ -54,7 +53,7 @@ router.post(
 				});
 			}
 		})(req, res, next);
-	})
+	}
 );
 
 router.delete("/logout", checkIsAuthenticated, (req, res) => {

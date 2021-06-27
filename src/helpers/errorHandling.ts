@@ -30,8 +30,3 @@ export const sendErrorProd = (err: AppError, res: Response) => {
 		errors: [{ message: err.message }],
 	});
 };
-
-export const catchAsync = (fn: Express.AsyncRequestHandler) =>
-	((req: Request, res: Response, next) => {
-		fn(req, res, next).catch(next);
-	}) as Express.AsyncRequestHandler;

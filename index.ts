@@ -1,4 +1,5 @@
 import express from "express";
+import "express-async-errors"; // Takes care of express async error handling
 import https from "https";
 import http from "http";
 import path from "path";
