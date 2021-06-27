@@ -4,7 +4,7 @@ import { checkIsAuthenticated, checkUserRole } from "@middlewares/auth";
 import { findServerIdFromSlug } from "@middlewares/server";
 import serverQuery from "@helpers/gemeServer/query";
 
-import nehoscreenshotuploader from "./plugins/nehoscreenshotuploader";
+import nehoscreenshotuploader from "./plugins/nehoscreenshotuploader/nehoscreenshotuploader";
 
 let router = express.Router({ mergeParams: true });
 

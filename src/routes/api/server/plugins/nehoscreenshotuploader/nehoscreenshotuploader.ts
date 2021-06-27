@@ -1,26 +1,24 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
+import { isString } from "lodash";
 import config from "@config/configuration";
 import prisma from "@db/client";
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import { strtr } from "locutus/php/strings";
 import { v4 as uuidv4 } from "uuid";
 import querystring from "querystring";
 import { checkIsAuthenticated, checkUserRole } from "@middlewares/auth";
 import { validateSequential } from "@helpers/validator";
-import { validateIdentkey, validateRcon } from "@middlewares/plugins/nehoscreenshotuploader";
+import { validateIdentkey, validateRcon, initialRequestObject } from "@middlewares/plugins/nehoscreenshotuploader";
 
-const pluginConfig = {
-	uploadsDir: {
-		main: path.join(config.uploadsDir.plugins, "nehoscreenshotuploader"),
-		get screenshots() {
-			return path.join(this.main, "screenshots");
-		},
-	},
-};
+import screenshotRoute from "./screenshot";
+
+const pluginConfig = config.plugins.nehoscreenshotuploader;
 
 let router = express.Router({ mergeParams: true });
+
+router.use("/", initialRequestObject);
 
 router.post("/execute", validateIdentkey, validateSequential([body("command").isString()]), async (req, res) => {
 	switch (req.body.command) {
@@ -74,5 +72,38 @@ router.post("/execute", validateIdentkey, validateSequential([body("command").is
 		}
 	}
 });
+
+router.get(
+	"/screenshots",
+	validateSequential([
+		query("page").isInt({ min: 1 }).optional(),
+		query("messagesPerPage").isInt({ min: 10, max: 50 }).optional(),
+	]),
+	async (req, res) => {
+		const page = isString(req.query.page) && parseInt(req.query.page) > 0 ? parseInt(req.query.page) : 1;
+		const messagesPerPage =
+			isString(req.query.messagesPerPage) && parseInt(req.query.messagesPerPage) > 0
+				? parseInt(req.query.messagesPerPage)
+				: 10;
+
+		const screenshots = await prisma.nehoscreenshotuploader_screenshots.findMany({
+			take: messagesPerPage,
+			skip: messagesPerPage * (page - 1),
+		});
+
+		res.json({
+			screenshots: screenshots.map((screenshot) => ({
+				id: screenshot.id,
+				map_name: screenshot.map_name,
+				player_name: screenshot.player_name,
+				server_id: screenshot.server_id,
+				screenshot_url: screenshot.screenshot_name,
+				time_submitted: screenshot.time_submitted,
+			})),
+		});
+	}
+);
+
+router.use("/screenshots/:screenshotId", screenshotRoute);
 
 export default router;

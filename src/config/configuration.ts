@@ -36,6 +36,18 @@ const config = {
 			return this.main + "plugins/";
 		},
 	},
+	get plugins() {
+		return {
+			nehoscreenshotuploader: {
+				uploadsDir: {
+					main: path.join(this.uploadsDir.plugins, "nehoscreenshotuploader"),
+					get screenshots() {
+						return path.join(this.main, "screenshots");
+					},
+				},
+			},
+		};
+	},
 };
 
 export default config;
