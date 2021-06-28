@@ -1,11 +1,9 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
-import { isString } from "lodash";
 import config from "@config/configuration";
 import prisma from "@db/client";
-import { body, query } from "express-validator";
-import { validateSequential } from "@helpers/validator";
+import { checkIsAuthenticated, checkUserRole } from "@middlewares/auth";
 import { getScreenshotFromId } from "@middlewares/plugins/nehoscreenshotuploader";
 
 const pluginConfig = config.plugins.nehoscreenshotuploader;
@@ -32,7 +30,20 @@ router.get("/", async (req, res) => {
 router.get("/file", async (req, res) => {
 	const screenshot = req.nehoscreenshotuploader.screenshot;
 	res.sendFile(path.join(pluginConfig.uploadsDir.screenshots, screenshot.screenshot_name), (err) => {
-		if (err) return res.json({ errors: [{ message: "Unable to find screenshot file." }] });
+		if (err) return res.status(500).json({ errors: [{ message: "Unable to find screenshot file." }] });
+	});
+});
+
+router.delete("/delete", checkIsAuthenticated, checkUserRole(80), async (req, res) => {
+	const screenshot = req.nehoscreenshotuploader.screenshot;
+	await prisma.nehoscreenshotuploader_screenshots.delete({ where: { id: screenshot.id } });
+	fs.unlink(path.join(pluginConfig.uploadsDir.screenshots, screenshot.screenshot_name), (err) => {
+		if (err)
+			return res.json({
+				message: "Screenshot deleted with errors.",
+				errors: [{ message: "Unable to delete screenshot file." }],
+			});
+		return res.json({ message: "Screenshot deleted successfully." });
 	});
 });
 

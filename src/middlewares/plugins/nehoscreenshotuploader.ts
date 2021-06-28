@@ -1,4 +1,4 @@
-import { Request, RequestHandler } from "express";
+import { RequestHandler } from "express";
 import { body } from "express-validator";
 import { validateSequential } from "@helpers/validator";
 import { nehoscreenshotuploader_screenshots } from "@prisma/client";
@@ -25,6 +25,7 @@ export const validateRcon: RequestHandler = (req, res, next) => {
 	});
 };
 
+// Add nehoscreenshotuploader to request object
 export const initialRequestObject: RequestHandler = async (req, res, next) => {
 	req.nehoscreenshotuploader = {
 		screenshot: {} as nehoscreenshotuploader_screenshots,
@@ -32,6 +33,7 @@ export const initialRequestObject: RequestHandler = async (req, res, next) => {
 	return await next();
 };
 
+// Get screenshot object from database and put it in request.nehoscreenshotuploader.screenshot
 export const getScreenshotFromId: RequestHandler = async (req, res, next) => {
 	if (!req.params.screenshotId) throw new AppError(`"req.params.screenshotId" is undefined`);
 	const screenshotId = parseInt(req.params.screenshotId);

@@ -104,6 +104,91 @@ router.get(
 	}
 );
 
+router.delete(
+	"/screenshots/delete",
+	checkIsAuthenticated,
+	checkUserRole(80),
+	validateSequential([
+		body("screenshotsIds")
+			.isArray({ min: 1, max: 50 })
+			.custom((value: number[]) => {
+				if (!value.every(Number.isInteger)) throw new Error("Array does not contain Integers");
+				value = [...new Set(value)]; // Removes duplicate numbers
+				return true;
+			}),
+	]),
+	async (req, res) => {
+		const screenshotsIds = req.body.screenshotsIds as number[];
+		const errors: { message: string }[] = [];
+
+		// Get screenshots file name and ids
+		const screenshots = await prisma.nehoscreenshotuploader_screenshots.findMany({
+			select: { id: true, screenshot_name: true },
+			where: {
+				id: { in: screenshotsIds },
+				server_id: req.server.id,
+			},
+		});
+
+		if (!screenshots.length) return res.status(400).json({ message: "Invalid screenshots Ids." });
+
+		// Delete screenshots records from database
+		await prisma.nehoscreenshotuploader_screenshots.deleteMany({
+			where: {
+				id: { in: screenshotsIds },
+				server_id: req.server.id,
+			},
+		});
+
+		// Loop through found screenshots and delete screenshot file
+		screenshots.forEach((screenshot, index) => {
+			fs.unlink(path.join(pluginConfig.uploadsDir.screenshots, screenshot.screenshot_name), (err) => {
+				if (err) errors.push({ message: `Unable to delete screenshot ${screenshot.id} file.` });
+				if (index === screenshots.length - 1) {
+					if (errors.length)
+						return res.json({
+							message: "Screenshot deleted with errors.",
+							errors,
+						});
+					return res.json({ message: "Screenshot deleted successfully." });
+				}
+			});
+		});
+	}
+);
+
+router.delete("/screenshots/deleteAll", checkIsAuthenticated, checkUserRole(80), async (req, res) => {
+	const errors: { message: string }[] = [];
+
+	// Get screenshots file name and ids
+	const screenshots = await prisma.nehoscreenshotuploader_screenshots.findMany({
+		select: { id: true, screenshot_name: true },
+		where: { server_id: req.server.id },
+	});
+
+	if (!screenshots.length) return res.status(400).json({ message: "No screenshots to delete." });
+
+	// Delete screenshots records from database
+	await prisma.nehoscreenshotuploader_screenshots.deleteMany({
+		where: { server_id: req.server.id },
+	});
+
+	// Loop through found screenshots and delete screenshot file
+	screenshots.forEach((screenshot, index) => {
+		fs.unlink(path.join(pluginConfig.uploadsDir.screenshots, screenshot.screenshot_name), (err) => {
+			if (err) errors.push({ message: `Unable to delete screenshot ${screenshot.id} file.` });
+			if (index === screenshots.length - 1) {
+				if (errors.length)
+					return res.json({
+						message: "Screenshot deleted with errors.",
+						errors,
+					});
+				return res.json({ message: "Screenshot deleted successfully." });
+			}
+		});
+	});
+});
+
 router.use("/screenshots/:screenshotId", screenshotRoute);
 
 export default router;
