@@ -8,7 +8,7 @@ declare global {
 		interface Request {
 			server: servers;
 			nehoscreenshotuploader: {
-				screenshot: nehoscreenshotuploader_screenshots;
+				screenshots: nehoscreenshotuploader_screenshots[];
 			};
 		}
 	}

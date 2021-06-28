@@ -1,9 +1,8 @@
 import { RequestHandler } from "express";
-import { body } from "express-validator";
+import { body, query } from "express-validator";
 import { validateSequential } from "@helpers/validator";
 import { nehoscreenshotuploader_screenshots } from "@prisma/client";
 import prisma from "@db/client";
-import { AppError } from "@helpers/errorHandling";
 
 export const validateIdentkey: RequestHandler = (req, res, next) => {
 	validateSequential([body("identkey").isString()])(req, res, async () => {
@@ -28,18 +27,33 @@ export const validateRcon: RequestHandler = (req, res, next) => {
 // Add nehoscreenshotuploader to request object
 export const initialRequestObject: RequestHandler = async (req, res, next) => {
 	req.nehoscreenshotuploader = {
-		screenshot: {} as nehoscreenshotuploader_screenshots,
+		screenshots: [{} as nehoscreenshotuploader_screenshots],
 	};
 	return await next();
 };
 
-// Get screenshot object from database and put it in request.nehoscreenshotuploader.screenshot
-export const getScreenshotFromId: RequestHandler = async (req, res, next) => {
-	if (!req.params.screenshotId) throw new AppError(`"req.params.screenshotId" is undefined`);
-	const screenshotId = parseInt(req.params.screenshotId);
-	const screenshot = await prisma.nehoscreenshotuploader_screenshots.findUnique({ where: { id: screenshotId ?? 0 } });
-	if (!screenshot || isNaN(screenshotId))
-		return res.status(400).json({ errors: [{ message: "Invalid screenshot id." }] });
-	req.nehoscreenshotuploader.screenshot = screenshot;
-	return await next();
-};
+// Get screenshots array from database and put it in request.nehoscreenshotuploader.screenshots
+export const getScreenshotsFromQuery = (navigation = true, defaultMessagesPerPage = 10) =>
+	(async (req, res, next) => {
+		validateSequential([
+			query("id").isInt().toInt().optional(),
+			query("page").isInt({ min: 1 }).toInt().optional(),
+			query("messagesPerPage").toInt().isInt({ min: 10, max: 50 }).optional(),
+		])(req, res, async () => {
+			const reqQuery = req.query as any as { page: number; messagesPerPage: number; id?: number };
+
+			const page = reqQuery.page ?? 1;
+			const messagesPerPage = reqQuery.messagesPerPage ?? defaultMessagesPerPage;
+
+			const screenshots = await prisma.nehoscreenshotuploader_screenshots.findMany({
+				where: { id: reqQuery.id, server_id: req.server.id },
+				take: navigation ? messagesPerPage : undefined,
+				skip: navigation ? messagesPerPage * (page - 1) : undefined,
+			});
+
+			if (!screenshots.length) return res.status(404).json({ message: "No screenshots found." });
+
+			req.nehoscreenshotuploader.screenshots = screenshots;
+			return await next();
+		});
+	}) as RequestHandler;
