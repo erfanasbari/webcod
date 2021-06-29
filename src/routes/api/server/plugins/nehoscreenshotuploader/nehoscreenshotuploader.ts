@@ -1,15 +1,22 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
+import bcrypt from "bcrypt";
 import config from "@config/configuration";
 import prisma from "@db/client";
 import { body } from "express-validator";
 import { strtr } from "locutus/php/strings";
 import { v4 as uuidv4 } from "uuid";
 import querystring from "querystring";
+import { expressUnless } from "@middlewares/expressUnless";
 import { checkIsAuthenticated, checkUserRole } from "@middlewares/auth";
 import { validateSequential } from "@helpers/validator";
-import { validateIdentkey, validateRcon, initialRequestObject } from "@middlewares/plugins/nehoscreenshotuploader";
+import {
+	validateIdentkey,
+	validateRcon,
+	checkIsEnabled,
+	initialRequestObject,
+} from "@middlewares/plugins/nehoscreenshotuploader";
 
 import screenshotRoute from "./screenshots";
 
@@ -18,6 +25,45 @@ const pluginConfig = config.plugins.nehoscreenshotuploader;
 let router = express.Router({ mergeParams: true });
 
 router.use("/", initialRequestObject);
+router.use("/", expressUnless(["/settings"], checkIsEnabled));
+
+router.get("/settings", async (req, res) => {
+	const settings = await prisma.server_options.findUnique({
+		where: { server_id: req.server.id },
+		rejectOnNotFound: true,
+	});
+	res.json({
+		settings: {
+			enabled: settings.nehoscreenshotsender_enabled,
+		},
+	});
+});
+
+router.post(
+	"/settings",
+	checkIsAuthenticated,
+	checkUserRole(100),
+	validateSequential([
+		body("enabled").isBoolean().toBoolean().optional(),
+		body("identkey").isString().isLength({ min: 3, max: 32 }).optional(),
+	]),
+	async (req, res) => {
+		if (!Object.keys(req.body).length)
+			return res.status(400).json({ errors: [{ message: "Please specify a setting to update." }] });
+		const identkeyHash = req.body.identkey ? await bcrypt.hash(req.body.identkey, 10) : undefined;
+
+		const updatedServerOption = await prisma.server_options.update({
+			where: {
+				server_id: req.server.id,
+			},
+			data: {
+				nehoscreenshotsender_enabled: req.body.enabled,
+				nehoscreenshotsender_identkey: identkeyHash,
+			},
+		});
+		res.json({ message: "NehoScreenshotUploader settings changed successfully." });
+	}
+);
 
 router.post("/execute", validateIdentkey, validateSequential([body("command").isString()]), async (req, res) => {
 	switch (req.body.command) {

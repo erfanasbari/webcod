@@ -1,16 +1,29 @@
 import { RequestHandler } from "express";
+import bcrypt from "bcrypt";
 import { body, query } from "express-validator";
 import { validateSequential } from "@helpers/validator";
 import { nehoscreenshotuploader_screenshots } from "@prisma/client";
 import prisma from "@db/client";
 
+export const checkIsEnabled: RequestHandler = async (req, res, next) => {
+	const serverOptions = await prisma.server_options.findUnique({
+		select: { nehoscreenshotsender_enabled: true },
+		where: { server_id: req.server.id },
+		rejectOnNotFound: true,
+	});
+	if (!serverOptions.nehoscreenshotsender_enabled)
+		return res.json({ errors: [{ message: "NehoScreenshoUploader is disabled." }] });
+	await next();
+};
+
 export const validateIdentkey: RequestHandler = (req, res, next) => {
-	validateSequential([body("identkey").isString()])(req, res, async () => {
+	validateSequential([body("identkey").isString().isLength({ min: 3, max: 32 })])(req, res, async () => {
 		const serverOptions = await prisma.server_options.findUnique({
 			select: { nehoscreenshotsender_identkey: true },
 			where: { server_id: req.server.id },
+			rejectOnNotFound: true,
 		});
-		if (req.body.identkey !== serverOptions?.nehoscreenshotsender_identkey)
+		if (!bcrypt.compareSync(req.body.identkey, serverOptions.nehoscreenshotsender_identkey))
 			return res.status(400).send({ errors: [{ message: "Wrong identkey." }] });
 		await next();
 	});
